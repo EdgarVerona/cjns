@@ -1,0 +1,20 @@
+Citizen Journalism Network Server
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+
+CJNS is an educational project that will hopefully one day prove useful. Initially a simple ASP.NET MVC 3 implementation of the Atom Publishing Protocol. Later in the project, it will have features for federated servers, geolocation, advanced searching, and ratings.
+
+For the forseeable future, this project is for educational purposes only (my own primarily, and hopefully others if people actually find it useful for that purpose), and goes along with a journal of my efforts at:
+
+http://vthornheart.railsplayground.net/blog
+
+As it matures from what it is now, it will evolve into something that will ideally be useful as either a starting point or a full reference implementation for a set of extensions to the Atom Publishing Protocol called "FreeSNAP": the Free Simple News Access Protocol. More details on the protocol and Atom extensions as they are dreamed up!
+
+Please see the wiki at:
+
+https://github.com/EdgarVerona/cjns/wiki
+
+for more information, and check out the project at:
+
+https://github.com/EdgarVerona/cjns
+
+... though if you're reading this, I can only imagine that you've already done so.
