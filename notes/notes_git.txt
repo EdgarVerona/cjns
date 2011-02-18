@@ -1,0 +1,29 @@
+
+* Git
+	.gitignore
+		- List patterns of files and folders to ignore
+	The essence of Git appears to be:
+		- The majority of operations you perform are intended to happen in your local repository
+		- The Master Branch and HEAD
+			- By default, a branch exists in every repository called "Master".
+			- Master moves to point to the latest commit you made, unless you moved to using another branch instead of Master.
+			- There is also a pointer called HEAD, which points to the branch in your current working environment.
+		- Branching
+			- A branch is merely a pointer to a commit, and can be moved or deleted very easily
+			- Branches, by default, exist on your local repository only.  However, you can push branches to remote repositories, or checkout branches from remote repositories.
+			- Remote repositories can be a "source of truth", but they may also be "peers".  Since all repositories should have the same history other than locally checked in changes, they all technically are a source of truth.
+			- You can only push your changes to a remote repository if no one has done so since your last pull from that repository.  This ensures that you must merge the changes from that repository before you commit your changes.
+			- When you move to a new branch, the state of your working area is replaced in entirety with the state of the branch - file modifications, added files, removed files, etc...
+				- For this reason, you cannot have modified and uncommitted files in your working space when you move to a new branch.  you must either check them in or "stash" them.
+		- Merging Branches
+			- Merging can be performed via traditional means, or by "Rebasing" (taking the deltas from every revision on one branch and applying them to another)
+			- Branching most often occurs locally, and is easy enough to use/merge/throw away that you can fearlessly branch even for individual changes (which apparently is recommended).
+			- After branching for a change, the idea appears to be to merge/rebase the branch back as soon as you're done working on that change, and then delete the branch.
+		- Tags
+			- A tag is also a pointer to a commit, though it can have additional information attached to it.
+			- You must explicitly push tags to remote repositories for them to exist there.
+		- Branching strategies
+			- Master/Development/Topics
+				- "Master" represents ready for deployment code: versions, ready for release patches, etc.
+				- "Development" would be a new long-lifetime branch (similar to Master) created initially with the creation of the repository.  It represents changes that have been made and checked in, but that have not gone through sufficient QA or a release schedule that dicates that it should be part of the "production ready" Master line.
+				- "Topic branches" would be the numerous short-lifetime branches made by developers as they tackle individual changes, features, bugfixes etc.  Developers may create, merge in, and then delete several of these a day if they're working on several issues.  Topic branches would be made off of the Development branch, and get merged back into the Development branch when completed.  These are often local branches that never make it outside of your local system.
