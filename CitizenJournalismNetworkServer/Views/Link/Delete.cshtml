@@ -1,0 +1,34 @@
+@model CitizenJournalismNetworkServer.Models.Link
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<fieldset>
+    <legend>Link</legend>
+
+    <div class="display-label">Href</div>
+    <div class="display-field">@Model.Href</div>
+
+    <div class="display-label">Type</div>
+    <div class="display-field">@Model.Type</div>
+
+    <div class="display-label">Language</div>
+    <div class="display-field">@Model.Language</div>
+
+    <div class="display-label">Title</div>
+    <div class="display-field">@Model.Title</div>
+
+    <div class="display-label">Length</div>
+    <div class="display-field">@Model.Length</div>
+</fieldset>
+@using (Html.BeginForm()) {
+    <p>
+        <input type="submit" value="Delete" /> |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+}
+

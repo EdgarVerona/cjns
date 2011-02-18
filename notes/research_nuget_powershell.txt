@@ -1,0 +1,51 @@
+
+http://nuget.codeplex.com/documentation?title=Creating%20a%20Package
+
+
+* NuGet Packages
+	- Three types of files:
+		- Tools (tools folder, path added to $env:Path)
+		- Assemblies (lib folder, become assembly references)
+		- Content (All other files copied to application root
+	- Automatically run scripts:
+		- Init.ps1 -> Run first time package is installed in a solution.
+		- Install.ps1 -> Runs when package installed in a project.
+		- Uninstall.ps1 -> Runs when package is uninstalled.
+	- 
+	
+	
+http://www.dougfinke.com/blog/index.php/2010/11/07/powershell-nuget-and-discoverability/
+http://dalelane.co.uk/blog/?p=185
+
+* Powershell
+	- My big questions
+		- How does it register these scripts for execution?  Is it just implied?
+		- 
+	- Has "cmdlets" (functions)
+		- Have Verb-Noun pattern, such as Get-Scaffold.  Get = Verb, Scaffold = Noun
+		- Can create C# classes to implement them, which can then get called in PowerShell
+			- But how do they get registered?
+		- 
+	- Running "Get-Command *scaffold* | Out-GridView" let me see that "Scaffold ___" is just an alias!  That was confusing.
+		- 
+	- 
+	
+* Current flow
+	- Invoke-Scaffolder called (generally by alias of "Scaffolder")
+	- Executes C# class InvokeScaffolderCmdlet.cs in T4Templates Core project
+		- Class overrides "ProcessRecordCore" from a parent class, which is called by an overridden "ProcessRecord" method from PSCmdLet (a base PS Automation class)
+			- Calls Ps1ScaffolderLocator.GetScaffolders, passes in project name, "Scaffolder" param value
+				- Ps1ScaffolderLocator looks in ~\CodeTemplates\\Scaffolders in project (good to know!), as well as every installed package folder w/tools folder (aha!) for PS1 files.
+				- Uses the PowerShellPackageManager class to find all packages installed
+				- Since it looks in all packages, if we make our own we should be set.  Just need to give it a good name.
+					- scaffolderName + ".ps1" is what it looks for, just to note.
+				- Returns a list of ScaffolderInfo classes for each that matched, with name, description, package name, location, and command info (how to execute!)
+			- Adds the TemplateFolder path of the "default" folder as well as the folder where the command being invoked was found
+				- Aha!  That's why I had to hack it, and where the paths actually came from!  Good to know!
+	- Given this, my approach:
+		- Piggyback off of their C# commands infrastructure, no need to reinvent the wheel
+		- Take their idea of having a generic "Views" command that gets run
+		- http://nuget.codeplex.com/wikipage?title=Creating%20a%20Package
+	- Installing mine locally
+		- Invoke-Scaffolder -Scaffolder DataViewScaffolding.DataViews -Controller Collection
+

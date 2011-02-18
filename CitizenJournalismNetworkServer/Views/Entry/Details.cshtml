@@ -1,0 +1,37 @@
+@model CitizenJournalismNetworkServer.Models.Entry
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>Entry</legend>
+
+    <div class="display-label">AtomId</div>
+    <div class="display-field">@Model.AtomId</div>
+
+    <div class="display-label">DatePublished</div>
+    <div class="display-field">@String.Format("{0:g}", Model.DatePublished)</div>
+
+    <div class="display-label">Rights</div>
+    <div class="display-field">@Model.Rights</div>
+
+    <div class="display-label">Summary</div>
+    <div class="display-field">@Model.Summary</div>
+
+    <div class="display-label">Title</div>
+    <div class="display-field">@Model.Title</div>
+
+    <div class="display-label">DateUpdated</div>
+    <div class="display-field">@String.Format("{0:g}", Model.DateUpdated)</div>
+
+    <div class="display-label">IsDraft</div>
+    <div class="display-field">@Model.IsDraft</div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
+

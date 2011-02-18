@@ -1,0 +1,9 @@
+﻿@using CitizenJournalismNetworkServer.Models
+@using CitizenJournalismNetworkServer.Helpers
+@model Content
+{
+    "type": "@Model.ContentType",
+    "isExternallySourced": "@Model.IsExternallySourced",
+    "src": "@Model.SourceUri",
+    "text": "@Model.Text"
+}

@@ -1,0 +1,158 @@
+
+
+Today I played around a bit with MvcScaffolding, seeing what I could do to get new Views scaffolded for XML and JSON.  As a result, I ended up learning a bit about PowerShell... and if you're interested, you can join me! =)
+
+<h2>Investigating MvcScaffolding</h2>
+
+I got on the bus and jumped into the folder structure cold: on Wednesday I was planning to take a look at the source of MvcScaffolding at least to try and get a sense of the structure and approach it uses to generating views.  I knew from the short blog I read about MvcScaffolding (which I linked toward the start of the project) that T4 Templates were used, but other than that I had no real idea what they were doing.
+
+I went looking for t4 files, and found them in folders under the packages/MvcScaffolding.0.9.1/tools directory, along with .ps1 files.
+
+"What's a .ps1 file?"  I asked myself.  I've never seen a PowerShell script before.  A quick look online revealed what it was, and that was when I remembered that the NuGet command line (which MvcScaffolding makes use of for accepting its commands) is itself a PowerShell console.  Okay, that makes sense then.
+
+So the .ps1 files must drive the logic of the actual commands that you enter into NuGet.  I took a look under the RazorViews folder under this Tools directory, and discovered a couple of things:
+
+1) PowerShell has a very distinct scripting language, dissimilar from any other I've personally worked with.  It feels like a strange hybrid of batch file programming and BASIC, with C-style code blocks and loops and constructs completely alien to me at first glance.
+
+2) This RazorView.ps1 file appeared to be formatting data in preparation to search for a single View to be rendered.
+
+<h2>Dissecting the Alien Construct</h2>
+
+The ps1 file appeared to be assembled into three primary sections:
+
+1) A header of sorts, that looked like it was defining the operation performed by the script.
+2) A parameter initialization section: perhaps defining what can be passed into the script?
+3) A block of code that resembled what C might look like if it were weakly typed and called functions in the way that a DOS command line calls an executable (that is, with space-separated parameters in the pattern "-{Name_of_Parameter} {Value of Parameter}".
+
+The last two blocks of code at the bottom of the script gave me my immediate hint as to its role: Find-ScaffoldTemplate and Invoke-ScaffoldTemplate were being called, and appeared to be passed parameters used to find a specific T4 template.
+
+Okay... so what calls this?
+
+I looked around, and found several more .ps1 files in other folders.  There were two .ps1 files in the root of the tools folder that looked to be used for initialization of properties (persistent properties?), and possibly even registration with NuGet.
+
+In the Controller subfolder, I found a .ps1 file that performed familiar functions: it seemed to be in charge of rendering the Controller, the Repository (if needed), and then calling out to a "Views" Scaffold that performs the familiar function of generating all of the views for that controller.
+
+Searching in the "Views" folder, I found what I was looking for: MvcScaffolding.Views.ps1 was looping through what looked to be a list of hard-coded and very familiar values ("Create", "Edit", "Delete", "Details", and "Index") and calling a "Scaffold $ViewScaffolder" command, where $ViewScaffolder was one of the parameters passed into this script.
+
+<pre escaped="true" lang="csharp" line="1">
+@("Create", "Edit", "Delete", "Details", "Index") | {
+	Scaffold $ViewScaffolder -Controller $Controller -ViewName $_ -ModelType $ModelType -Template $ViewPageName -Area $Area -Layout $Layout -SectionNames $SectionNames -PrimarySectionName $PrimarySectionName -Project $Project -CodeLanguage $CodeLanguage -OverrideTemplateFolders $TemplateFolders -Force:$Force
+}
+</pre>
+(Figure 1.  Is that their version of a for loop?  What is THAT?)
+
+This looked like a good pressure point to begin altering to serve my dark purposes.  This was quite an unusual loop, however: it was just a list of items enclosed by parenthesis, started by an @ symbol, and followed by a code block where - as far as I could tell - the current item looked to be represented by $_ (it fit with the named parameter "-ViewName" that immediately preceded it, which was what clued me in: I knew from my memory of MVC that the hard coded values above are well known names of default views, and I also saw no $_ variable being passed in in their params() section.)
+
+My task was clear: I had to iterate over this same set of items, but for every possible view type (json, xml, and standard html), and find a way to have the View that's discovered be the one for the correct view type.
+
+My first thought was to make the existing loop a nested one, and iterate THAT over each type I wanted to render.  But what decided that the variable for the iterator should be named $_, and what would the name of the variable be if it was in a nested loop construct?  At this point, I decided to look it up online: fortunately the internet wasn't misbehaving at the time, so I found out that there's a wide variety of loop constructs in PowerShell, and the one seen above is one of the more unusual ones: it's actually taking the list items one at a time and "piping" them (the same way one would pipe the output of one command in a command line into the input of another) into this code block.  In this construct, the input appears to be hard coded to $_, which means its not really suitable for my nesting idea.  Fortunately, I COULD replace it with a more useable foreach construct:
+
+<pre escaped="true" lang="csharp" line="1">
+$ViewPageNames = "Create", "Edit", "Delete", "Details", "Index"
+$ViewTypes = "", "json", "xml"
+
+foreach($ViewType in $ViewTypes)
+{
+	foreach($ViewPageName in $ViewPageNames)
+	{
+		Scaffold $ViewScaffolder -Controller $Controller -ViewName $ViewPageName -ModelType $ModelType -Template $ViewPageName -Area $Area -Layout $Layout -SectionNames $SectionNames -PrimarySectionName $PrimarySectionName -Project $Project -CodeLanguage $CodeLanguage -OverrideTemplateFolders $TemplateFolders -ViewType $ViewType -Force:$Force
+	}
+}
+</pre>
+(Figure 2.  A foreach construct, passing in a new Type parameter)
+
+With the foreach construct, I could define the name of the variable currently holding the iterated value and thus could pass both the ViewName and my new ViewType into this scaffold call.  Note that one of them is blank: this is really a hack on my part.  If there's no type passed in, it's the HTML type.  As I'll talk more about later, I wanted HTML templates and views to be in what one might call their "usual" positions at the root of the folders.  It may have been a lack of sufficient coffee that made me decide to use this strange blank string standard, as I end up having to explicitly check for a blank string anyways!  I'll have to remember to just go ahead and change it to "html" so at least makes sense to me next time I look at it.
+
+Now, back to the MvcScaffolding.RazorView.ps1 file.  
+
+<h2>A Place For Everything, and Everything In Its Place</h2>
+
+First, I figured we'd have to add in the new parameter that we're passing in:
+
+<pre escaped="true" lang="csharp" line="1">
+[T4Scaffolding.Scaffolder(Description = "Adds an ASP.NET MVC view using the Razor view engine")][CmdletBinding()]
+param(        
+	...
+	[string]$ViewType,
+	...
+)
+</pre>
+(Figure 3.  New parameter!)
+
+Now using the new ViewType parameter, I knew that I needed to direct the engine to both output to a new subfolder with the same name as the passed in type, and to read the template from the subfolder of the same name and type.  Once that was done, I should be able to just pop in the new folders and call it a day.
+
+Now, due to that aforementioned HTML root folder convention that I wanted to preserve, I wanted to check whether the View was something other than HTML, and then insert it into the paths being used for source and destination.
+
+An inspection of the file showed that "$outputFolderName" was, as one would suspect, the name of the folder that the View would be output to.  (Amazing!)  However, the input folder was actually a list of folders: and what's more, I didn't actually know what was coming in.  Was it absolute paths?  Relative paths to some known folder?  And why multiple?  I needed to know what was coming to know whether I could - for example - just blindly append the type name as another folder at the end of each path, or whether doing that would potentially cause issues as it searched in places I wasn't expecting.
+
+I downloaded the source for MvcScaffolding so that I could take a look, and see if I could find where the "Find-ScaffolderTemplate" function was actually defined: I didn't see it defined in any of the .ps1 files, and yet it was being called in the script and presumably using $TemplateFolders to find the view to be rendered.  (Hmm... I was going to include an image of the project folders, but then I realized that it's already past 11pm and anyone really interested can just go get the project at http://mvcscaffolding.codeplex.com.  So go there if you want to take a look, I won't bore you even more than you already may be by putting it here!)
+
+This was an educational process: I found that Find-ScaffolderTemplate is actually defined in a C# class in a .NET DLL!  Interesting, so PowerShell can call (at least) .NET DLL class methods with a command line-like interface.  However, I didn't glean much from the source: it looked to me like the paths must be absolute because I didn't see any translation happening in there, but I didn't mess around with it too much because I realized that I could use some of the PowerShell concepts that I saw in the existing .ps1 files to find out for myself.
+
+There appeared to be a command, Write-Host, that allows you to write to the console.  looks easy enough, so I added a code block like this to short-circuit the actual template generation process and instead print the paths that came in:
+
+<pre escaped="true" lang="csharp" line="1">
+foreach($Folder in $TemplateFolders)
+{
+	Write-Host "$Folder"
+}
+return
+</pre>
+(Figure 5.  Checking out the $TemplatePaths)
+
+I then ran the "Scaffold Controller Collection" command to see what I got:
+
+<pre escaped="true">
+...
+C:\Projects\News Projects\trunk\packages\MvcScaffolding.0.9.1\tools\Views
+C:\Projects\News Projects\trunk\packages\MvcScaffolding.0.9.1\tools\RazorViews
+...(Repeated a ton of times, one for each view/type combination!)
+</pre>
+(Figure 6.  Some output from the $TemplatePaths method)
+
+So it looked like we got two paths, both absolute: the path to the generic Views folder, and the path to the Razor specific Views folder (the latter, I presume, coming from the setting in those root .ps1 files that seemed to have code to determine whether you wanted to create Scaffolding with Razor or with the traditional Web Forms View Engine.)
+
+Since I'm just concerned with Razor, I went ahead and made new "json" and "mvc" folders in both that generic Views folder (which I left empty) and the Razor specific Views folder (into which I made a copy of the existing Razor templates just for the purposes of seeing that they get located).
+
+Now, to change these two variables.  I needed to do it conditionally, and I had no clue what the boolean operators were.  I did a quick search online, and I can tell you that I never would have guessed what they would've been: but now that I've seen it, it makes sense.  PowerShell seems to treat everything as if it was launching an executable and passing command line parameters: why not with boolean logic, as insane as it ends up looking as a result?
+
+Here's the resultant code I put in, take a look at that funky "Not Equals" operator (-ne):
+
+<pre escaped="true" lang="csharp" line="1">
+if ($ViewType -ne "")
+{
+	$outputFolderName = Join-Path $outputFolderName $ViewType
+	
+	$NewTemplateFolders = @()
+	foreach($Folder in $TemplateFolders)
+	{
+		$Folder = Join-Path $Folder $ViewType
+		
+		$NewTemplateFolders += $Folder;
+	}
+	$TemplateFolders = $NewTemplateFolders;
+}
+</pre>
+(Figure 7.  My output and input folder overrides, with the funkiest boolean operator I've ever seen)
+
+In the example above, I use this convenient "Join-Path" method to append the type name as a new folder at the end of the output path (I spotted this method elsewhere in the file... that is super handy to have available as a core feature for something like this!  Nice!).  I also assemble a replacement list for $TemplateFolders, again performing the path join on the old values, and then appending them into the new list (the += operator in PowerShell is used to append items to lists, I found out by doing some searching for list operations... I think I could've actually done this without creating a new list by using some other list construct like an index operator: but I just used the first one that I saw would work as I scanned long reference page for lists.).  Lastly, I replaced the old list with the new one so that it would be used.
+
+With the new folders paths in place and there being new folders actually in the input locations (it threw an error the first time, because I didn't actually add the json and xml folders to the generic Views directory at first), it ran smoothly!
+
+(+++ IMAGE)
+
+(Figure 8.  Boo-yeah!)
+
+So now we can render the templates for the new types, and we know exactly where to go if we for some reason decide to add more types.  Tomorrow I need to actually get to editing the T4 templates themselves!
+
+<h2>Conclusions</h2>
+
+PowerShell is an unusual but useful scripting language, and I get the feeling it goes much deeper than what I was able to learn in my hour or so of prodding about and inferring from the source and calls out to reference material.  The native support for making calls into .NET DLLs were interesting, though I wonder if that required some kind of wiring up that I didn't spot (that CmdletBinding() part on the top of each script perhaps?  I don't know admittedly... yet!).  I decisively disliked their "treat everything like you're launching an executable" approach to function calls and even boolean operators.  The mechanism for function calls was at least somewhat useful because you could easily reverse engineer the intent of a passed in variable by the given name that preceeded it... but using that mechanism for the boolean operators?  What the heck was that all about?  There's no reason why != (or even "<>") should be represented as "-ne" in my mind.  But perhaps that's just personal preference... it looks silly to me.  Now get off my lawn you crazy kids!
+
+<h2>Tomorrow's Goals</h2>
+
+Today, though I accomplished some interesting and unexpected tasks, I didn't actually accomplish my *goal* of getting real T4 templates for the data... today ended up being more of a "technical prep" day for this next step.  Tomorrow I will be actually modifying the T4 templates, and hopefully creating useful scaffolds for the Razor Data Views that I can then modify and tweak as I refine the outward-facing interface and customize for the Atom standard.
+
+Until next time!
+
+<a href="http://cjns.codeplex.com/">Get the source for this ongoing project at CodePlex now</a>!  (See the "Day007" tag for an archive of progress up to this article)

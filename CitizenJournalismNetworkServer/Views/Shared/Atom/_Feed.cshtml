@@ -1,0 +1,34 @@
+﻿@using CitizenJournalismNetworkServer.Models
+@using CitizenJournalismNetworkServer.Helpers
+@model Feed
+
+<feed>
+    <title>@Model.Title</title>
+    @foreach (Person author in Model.Authors)
+    {
+        @Html.Partial("_atomAuthor", author)
+    }
+    @foreach (Category category in Model.Categories)
+    {
+        @Html.Partial("_atomCategory", category)
+    }
+    @foreach (Person contributor in Model.Contributors)
+    {
+        @Html.Partial("_atomContributor", contributor)
+    }
+    @Html.Partial("_atomGenerator", Model.Generator)
+    @OptionalRenderingHelper.RenderTagifExists("icon", Model.IconUri)
+    <id>@Model.AtomId</id>
+    @foreach (Link link in Model.Links)
+    {
+        @Html.Partial("_atomLink", link)
+    }
+    @OptionalRenderingHelper.RenderTagifExists("logo", Model.LogoUri)
+    @OptionalRenderingHelper.RenderTagifExists("rights", Model.Rights)
+    @OptionalRenderingHelper.RenderTagifExists("subtitle", Model.Subtitle)
+    <updated>@AtomDateHelper.RenderDate(@Model.DateUpdated)</updated>
+    @foreach (Entry entry in Model.Entries)
+    {
+        @Html.Partial("_atomEntry", entry)
+    }
+</feed>

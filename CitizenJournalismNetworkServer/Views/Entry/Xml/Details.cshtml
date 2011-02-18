@@ -1,0 +1,27 @@
+@model CitizenJournalismNetworkServer.Models.Entry
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Entry>
+				<AtomId>
+				@Model.AtomId
+			</AtomId>
+				<DatePublished>
+				@String.Format("{0:g}", Model.DatePublished)
+			</DatePublished>
+				<Rights>
+				@Model.Rights
+			</Rights>
+				<Summary>
+				@Model.Summary
+			</Summary>
+				<Title>
+				@Model.Title
+			</Title>
+				<DateUpdated>
+				@String.Format("{0:g}", Model.DateUpdated)
+			</DateUpdated>
+				<IsDraft>
+				@Model.IsDraft
+			</IsDraft>
+	</Entry>
+

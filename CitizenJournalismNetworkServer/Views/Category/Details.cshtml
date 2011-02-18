@@ -1,0 +1,25 @@
+@model CitizenJournalismNetworkServer.Models.Category
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>Category</legend>
+
+    <div class="display-label">Term</div>
+    <div class="display-field">@Model.Term</div>
+
+    <div class="display-label">Scheme</div>
+    <div class="display-field">@Model.Scheme</div>
+
+    <div class="display-label">Label</div>
+    <div class="display-field">@Model.Label</div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
+

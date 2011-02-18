@@ -1,0 +1,10 @@
+﻿@using CitizenJournalismNetworkServer.Models
+@using CitizenJournalismNetworkServer.Helpers
+@model Content
+
+<content
+    @OptionalRenderingHelper.RenderAttributeifExists("type", Model.ContentType)
+    @if (Model.IsExternallySourced) { OptionalRenderingHelper.RenderAttributeifExists("src", Model.SourceUri); }
+>
+    @Model.Text
+</content>

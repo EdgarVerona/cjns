@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<package>
+  <metadata>
+    <id>DataViewScaffolding</id>
+    <version>0.1.1</version>
+    <authors>Alex Loret de Mola</authors>
+    <description>A fast and customizable way to build parts of your .NET application via templates</description>
+    <summary>A fast and customizable way to build parts of your .NET application via templates</summary>
+    <dependencies>
+      <dependency id="T4Scaffolding" version="0.9.1" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="Scaffolders\**\*.t4" target="tools" />
+    <file src="Scaffolders\**\*.ps1" target="tools" />
+    <file src="*.ps1*" target="tools" />
+    <file src="InstallationDummyFile.txt" target="content" />
+  </files>
+</package>

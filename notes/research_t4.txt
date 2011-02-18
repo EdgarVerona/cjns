@@ -1,0 +1,128 @@
+
+Our Goal
+
+To build a Razor View page that will be passed in whatever type we wish, and output the basic properties of that type as JSON or XML.
+
+We'll have to build a lot after that: particularly with the XML, which will end up nowhere near Atom's exact specifications.  But it's a good start, and it's fun to try it out.
+
+* About T4 Templates
+	- Allow you to generate code programmatically
+	- Have a syntax that reminds me of ASP.NET Web Forms View Engine: <# Code to be run #>
+	- Anything within <# #> tags will be interpreted during generation.  Anything outside of it will be rendered verbatim into the resultant file being generated.
+		
+* EnvDTE and Project Introspection
+	- EnvDTE is a Microsoft Library that provides Visual Studio automation.
+	- MvcScaffolding used it to great effect in determining the type of the class for which files will be generated, as well as its properties.
+	- It sort of feels like Reflection to me, and admittedly I'm not sure why they didn't just use reflection.  Oh well, it's something new to try out.
+		- I wonder if perhaps its because with Reflection you'd have to reflect against the already compiled DLLs, where with DTE you can obtain reflection-like information against the class as it currently exists in the project?
+		- Some people online say that the problem is that Reflection locks the DLL being reflected, but others dispute that: and still others claim that DTE does also.  Don't know what that's all about.
+
+* Modifying the templates
+	- <# var viewDataType = (EnvDTE.CodeType) Model.ViewDataType; #>
+		- We were passed a Model from something (I don't care what at the moment) in the T4Scaffolding infrastructure.
+		- This model has a property, ViewDataType, that is of type "CodeType".  CodeType essentially represents the properties, methods, attributes, etc... of a class.  In this case, the class whose name we passed in as the ModelType.
+	- Each T4 template had a set of helper methods inside that you can use to more easily access the properties of this type.
+		- For instance, this method takes the type, acquires properties that have a GET, are not arrays or lists, and either are a primitive or are composed entirely of primitives.
+		- List<ModelProperty> GetEligibleProperties(EnvDTE.CodeType typeInfo) {
+				List<ModelProperty> results = new List<ModelProperty>();
+				if (typeInfo != null) {
+					foreach (var prop in typeInfo.VisibleMembers().OfType<EnvDTE.CodeProperty>()) {
+						if (prop.IsReadable() && !prop.HasIndexParameters() && IsBindableType(prop.Type)) {
+							results.Add(new ModelProperty {
+								Name = prop.Name,
+								ValueExpression = "Model." + prop.Name,
+								Type = prop.Type,
+								IsPrimaryKey = Model.PrimaryKeyName == prop.Name,
+								IsReadOnly = !prop.IsWriteable()
+							});
+						}
+					}
+				}
+
+				return results;
+			}
+		- It assembles a ModelProperty object for each, which has helpful shortcuts such as the "ValueExpression" property, which represents how Razor would access this property from the model so you can output that right to the file.
+
+* Creating the Details Templates
+	- I'll use JSON as an example.
+	- {
+		<#
+		foreach (ModelProperty property in GetModelProperties(Model.ViewDataType)) {
+			if (!property.IsPrimaryKey) {
+		#>
+			"<#= property.Name #>", "@<#= property.ValueExpression #>",
+		<#
+			}
+		}
+		#>
+		}
+	- This loops through each property.  if it's not the "Primary Key" according to the Model that was passed in, we'll add it to the JSON object's properties.
+	- That's pretty much it!  The output for a Collection ends up looking like this:
+	- 
+
+* Creating the Index Templates
+	- This time, let's use XML as an example.
+	- <# List<ModelProperty> properties = GetModelProperties(Model.ViewDataType); #>
+		@foreach (var item in Model) {
+			<<#= viewDataType.Name #>>
+			<#
+			foreach (ModelProperty property in properties) {
+				if (!property.IsPrimaryKey) {
+			#>
+				<<#= property.Name #>>
+					@<#= property.ValueExpression.Replace("Model.", "item.") #>
+				</<#= property.Name #>>
+			<#
+				}
+			}
+			#>
+			</<#= viewDataType.Name #>>
+		}
+	- This time, we render a Razor loop to start.  Remember, though it's confusing, that there's a "Model" object that we're working with in T4 that represents the *concept* of our Model class: and there's also a "Model" in the resultant Razor code we're rendering that will, in this case, represent a list of actual instances of the given class.  When we render this Razor loop, it will show up in the resultant view file and let us iterate over the actual instances of the Model.
+	- We wrap the upcoming properties in a tag that's the name of our Model, and then we then iterate through each property in the T4 template, creating an XML node for each property and making the value of it the value of the current item we're looking at in the Razor model's list.
+		- Note that we're replacing ValueExpression's "Model." prefix with "item.", because in the Razor view we're going to want to be getting the value of the property for the item being iterated on: it will render as "item.[NameOfTheProperty]" and will output that item's property value.
+		- I took this straight from what MvcScaffolding does, but looking at it more closely I wonder if it would be easier to understand later if you were to just create the whole "item.[PropertyName]" construct manually.
+	- Lastly, I used Microsoft's Pluralizer to get the plural of the model's name while rendering the T4.  This lets me wrap the whole construct above with an XML tag that contains the individual models with a properly named plural version of the model name.
+		- <# PluralizationService pluralizer = PluralizationService.CreateService(System.Globalization.CultureInfo.CurrentCulture); #>
+		...
+		<<#= pluralizer.Pluralize(viewDataType.Name) #>>
+		(Our code from above)
+		</<#= pluralizer.Pluralize(viewDataType.Name) #>>
+	- For the Collection, we end up with something this as our Razor view:
+		@model IEnumerable<CitizenJournalismNetworkServer.Models.Collection>
+
+		<?xml version="1.0" encoding="UTF-8"?>
+
+		<Collections>
+		@foreach (var item in Model) {
+			<Collection>
+					<Href>
+					@item.Href
+				</Href>
+					<Title>
+					@item.Title
+				</Title>
+					<AreCategoriesFixed>
+					@item.AreCategoriesFixed
+				</AreCategoriesFixed>
+				</Collection>
+		}
+		</Collections>
+		
+Do we really need these?
+
+The last thing I did is remove some of the unnecessary templates from our data views.  With HTML views, it makes sense to have templates for Edit, Create, etc... pages.  But with Data Views, what we're really concerned with is how we're generating the data that we send back and not ways for a human to interact with the system.
+	
+For now, it seems reasonable to just have Details and Index as views.  If we come up with others that need representation, we can add templates for them later... but I don't see us needing them at the moment.
+
+Conclusion
+
+Today we played a bit with T4 Templates and EnvDTE, the Visual Studio Automation library.  We also created some naive but functional Razor Views that we can choose to build on later, or just build on the rendered results they produced!
+
+Tomorrow's Goals
+
+Now that we've created our template and rendered our basic data views, tomorrow I've got to get to the less interesting gruntwork business of modifying those templates to better represent the output that we desire.  Doesn't sound terribly glamorous, but I can't putz around with PowerShell all week.  Let's try to get through this gruntwork tomorrow so we can move on to more interesting things.  
+
+If I have enough time by the end of the day, I'll try to do some of the cleanup that I've been intending, such as removing the now obsolete Serialization attributes and infrastructure.
+
+Until Tomorrow!

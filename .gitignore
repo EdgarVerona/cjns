@@ -1,0 +1,6 @@
+*.suo
+*.user
+CitizenJournalismNetworkServer/bin/*
+CitizenJournalismNetworkServer/obj/*
+*.log
+Thumbs.db

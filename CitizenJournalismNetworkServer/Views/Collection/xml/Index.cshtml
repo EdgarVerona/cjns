@@ -1,0 +1,19 @@
+@model IEnumerable<CitizenJournalismNetworkServer.Models.Collection>
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Collections>
+@foreach (var item in Model) {
+	<Collection>
+			<Href>
+			@item.Href
+		</Href>
+			<Title>
+			@item.Title
+		</Title>
+			<AreCategoriesFixed>
+			@item.AreCategoriesFixed
+		</AreCategoriesFixed>
+		</Collection>
+}
+</Collections>
+

@@ -1,0 +1,31 @@
+@model CitizenJournalismNetworkServer.Models.Link
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>Link</legend>
+
+    <div class="display-label">Href</div>
+    <div class="display-field">@Model.Href</div>
+
+    <div class="display-label">Type</div>
+    <div class="display-field">@Model.Type</div>
+
+    <div class="display-label">Language</div>
+    <div class="display-field">@Model.Language</div>
+
+    <div class="display-label">Title</div>
+    <div class="display-field">@Model.Title</div>
+
+    <div class="display-label">Length</div>
+    <div class="display-field">@Model.Length</div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
+

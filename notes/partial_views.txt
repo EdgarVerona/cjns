@@ -1,0 +1,26 @@
+
+* Partial Views
+	- It was entertaining to create scaffolding for the views, but when push comes to shove it made more sense to have a Partial View for each element type in the Atom Publishing Protocol hierarchy.
+	- With some more thought and time, I could probably scaffold those as well: just need to change source and destination paths.  But I started coding up a few of them, and they were so dead easy that I decided to stop wasting my time figuring out how to scaffold these things and just create them.
+	- Naming convention:
+		- _[XmlNamespace][XmlElement].cshtml
+		- XmlNamespace tends to be either "app" or "atom" for our purposes
+		- XmlElement would be elements in our resultant Data View, like Collection, Workspace, Service etc...
+	- Partial views allow you to set a "local model" on the partial view so that you don't have to worry about where the source of the data originated, or about traversing down the whole entity of the original Model
+		- Also allows for reuse, since some elements may be used in many entities
+	- Calling Partial Views:
+		- @Html.Partial("[NameOfPartialView]", [PartialViewModel]);
+	- Creating Partial Views:
+		- Define the View's model:
+			- @model Workspace
+		- Create the model as a "portion" of the full view you wish to render.  In this case, with Razor Data Views, we'll be rendering part of an XML document.
+	- Lingering questions:
+		- Should I be assuming that we're under the "app" namespace?  
+			- It is somewhat less reusable that way, but in the context of our application we probably won't be wrapping these partial views in an XmlDocument that wouldn't have app as the default namespace... I imagine.  We'll see how it goes.
+		- What of reused models like "Person" (which ends up used in atom:author, atom:contributor, etc)
+			- Choosing to make a separate partial view for each: they're separate, and may differ (if not now, then potentially as we add more extensions to the protocol)
+
+* Interesting gotchas
+	- If you try to access a generic method in Razor, it's going to get confused unless you wrap the method call in parenthesis:
+		- @(OptionalRenderingHelper.RenderAttributeIfExists<long?>("length", Model.Length))
+	- 

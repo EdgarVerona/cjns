@@ -1,0 +1,81 @@
+@model CitizenJournalismNetworkServer.Models.Entry
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+    <fieldset>
+        <legend>Entry</legend>
+
+        @Html.HiddenFor(model => model.Id)
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.AtomId)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.AtomId)
+            @Html.ValidationMessageFor(model => model.AtomId)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.DatePublished)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.DatePublished)
+            @Html.ValidationMessageFor(model => model.DatePublished)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Rights)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Rights)
+            @Html.ValidationMessageFor(model => model.Rights)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Summary)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Summary)
+            @Html.ValidationMessageFor(model => model.Summary)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Title)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Title)
+            @Html.ValidationMessageFor(model => model.Title)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.DateUpdated)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.DateUpdated)
+            @Html.ValidationMessageFor(model => model.DateUpdated)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.IsDraft)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.IsDraft)
+            @Html.ValidationMessageFor(model => model.IsDraft)
+        </div>
+
+        <p>
+            <input type="submit" value="Save" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+

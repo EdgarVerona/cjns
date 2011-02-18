@@ -1,0 +1,8 @@
+@model IEnumerable<CitizenJournalismNetworkServer.Models.Entry>
+<?xml version="1.0" encoding="UTF-8"?>
+<Entries>
+	@foreach (var item in Model) {
+		@Html.Partial("Atom/_Entry", item)
+	}
+</Entries>
+

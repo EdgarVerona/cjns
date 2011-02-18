@@ -1,0 +1,259 @@
+
+* atomDate
+	- RFC 3339
+	- T between date & time
+	- Z if no time zone offset present
+
+* atomLink
+	- commonAttributes
+	- href (uri)
+	- rel (ncname | uri)
+	- type
+	- hreflang
+	- title
+	- length
+	
+* atomPerson
+	- commonAttributes
+	- name*
+	- uri
+	- email
+	- extensions*
+	
+* atomCategory
+	- commonAttributes
+	- term
+	- scheme? (uri)
+		- Identifies category scheme
+	- label?
+	
+* atomGenerator
+	- commonAttributes
+	- uri?
+	- version?
+	- text
+
+-- Entries & Feeds
+
+content = "application/atom+xml"
+type = "entry | feed"
+	
+* atomEntry
+	- commonAttributes
+	- author* (atomPerson)
+	- category*
+	- content?
+		- type="text|html|xhtml|(other MIME types)"
+		- May be src="url", in which case content should be empty
+		- If MIME type, Base64 encoded
+		- See 4.1.3.3, pg. 16, RFC 4287 for details
+	- contributor* (atomPerson)
+	- id (uri)
+	- link* (atomLink)
+		- Should have at least rel="edit" for edit URI
+		- If media, should have rel="edit-media" for uploading new Base64 enc. content
+	- published? (date)
+	- rights?
+	- source? (atomEntry)
+		- Should have id, title, updated if federated
+	- summary?
+		- Required if content type = src or content not text | xml | *+xml
+	- title
+	- updated (date)
+	- extensions*
+		- appControl
+			- appDraft? ("yes | no")
+			- extensionElements*
+
+* atomFeed
+	- commonAttributes
+	- author* (atomPerson)
+	- category* (atomCategory)
+	- contributor* (atomPerson)
+	- generator* (atomGenerator)
+	- icon? (uri)
+	- id (uri)
+	- link* (atomLink)
+		- If paged, should have rel="first & previous & next & last"
+	- logo? (uri)
+		- Image should be 2:1 H:V
+	- rights?
+	- subtitle?
+	- title
+	- updated (date)
+	- extensions*
+	- entry* (atomEntry)
+
+-- Categories
+	
+* atomCategory
+	- commonAttributes
+	- term
+	- scheme? (uri)
+	- label? 
+* appInlineCategories
+	- fixed ("yes | no")
+		- If "yes", new categories can be added
+		- No protocol given specifically for addition/removal of categories
+	- scheme (uri)
+	- (atomCategory*)
+* appOutOfLineCategories
+	- href (uri)
+* appCategories
+	- (appInlineCategories | appOutOfLineCategories)
+
+-- Service Documents
+
+namespace = "http://www.w3.org/2007/app"
+
+* appService
+	- appCommonAttributes
+	(
+		- appWorkspace+
+		- extensions*
+	)
+
+* appWorkspace
+	- appCommonAttributes
+	(
+		- atomTitle
+		- appCollection*
+		- extensionSansTitleElement*
+	)
+
+* appCollection
+	- appCommonAttributes
+	- href (uri)
+	(
+		- atomTitle
+		- appAccept*
+			- May be any MIME type
+			- May be "application/atom+xml;type=entry" (accepts Atom Entries)
+		- appCategories*
+		- extensionSansTitleElement*
+	)
+	
+
+* Service Documents, Collections, Categories
+	- SvcDoc
+		- Workspace*
+			- Collection (Points to the Collections' representative URI... which is a feed with all members)*
+				- Categories*
+				- (indirect, through feed) Member Resource (Entry)*
+	- Standard Operations
+		- Service Document
+			- GET SvcDoc URI: Return SvcDoc
+		- Collection
+			- GET Collection URI: Return Feed with all members in collection, optionally paged
+			- POST Collection URI: Create Member Resource, return location of new Resource URI
+				- Header Info:
+					- Content-Type
+						- May be "application/atom+xml;type=entry" for Atom Entries
+						- May be a MIME type
+					- Slug
+						- Suggestion for phrase to be used in URI
+					- 
+		- Member Resource
+			- GET Member URI: Return Member Resource
+			- PUT Member URI: Update Member Resource, return 200
+			- DELETE Member URI: Delete Member Resource, Return 200
+	- Category Documents
+		- <?xml version="1.0" ?>
+		<app:categories
+			xmlns:app="http://www.w3.org/2007/app"
+			xmlns:atom="http://www.w3.org/2005/Atom"
+			fixed="yes" scheme="http://example.com/cats/big3">
+			<atom:category term="animal" />
+			<atom:category term="vegetable" />
+			<atom:category term="mineral" />
+		</app:categories>
+	- Service Documents
+		- application/atomsvc+xml
+		- Have 1..M Workspaces
+			- Specific use/purpose of workspaces not defined, may be server specific
+			- Operations on workspaces not defined in standard
+			- Collections may appear in more than one workspace
+			
+* GOALS
+	- "Can't stop the signal"
+		- Federated Servers must be able to continue hosting content even if other servers in Federation go down
+		- Users need to be able to post and update content to any server in a Federation
+			- Even update content on a server other than the one where it was originally posted
+			- Must prevent credential spoofing as much as possible, even with untrusted server in Federation
+		- Hidden Federation Nodes
+			- (Need to examine feasibility)
+			- How can we create it such that Federation server nodes are only known to Federation servers
+				- Yet if a Fed Server goes down, people can still locate news content at one of the hidden locations
+	- Relevancy by Locality
+		- Need to be able to use Location in the same way that Categories are currently used
+			- Search by proximity
+			- expose allowed locations and proximity radiuses/bounds in Collections
+	- Focused Searching
+		- Need to be able to query by a variety of options, to make the resultant server pertinent to focused news searching
+
+* Missing Features: Need implementing
+	- Querying against a Collection (or even Workspace/Service Document)
+		- Need protocol standards, expected results
+	- Geographic location for Entries
+		- Optionally Geographic limitation for Collections and even Workspaces/Service Documents
+	- Federated Server membership protocol
+		- Need protocol standards for getting/setting/updating/removing peer servers
+		- Need protocol standards for establishing Federation against a Collection/Workspace
+			- Perhaps Workspaces == potential Federation interface point?
+	- Federation authentication protocol
+		- Perhaps we can use OAuth for this purpose
+		- Need to think about how federated servers authenticate with each other as well
+			- Example: User on Server A updates article.  
+				- How will Server X, without a direct federated relationship with A, know that auth is genuine for update?
+				- Federated Servers could share a common secret... need to think about this.
+	- JSON variant on Atom
+		- JSONify the Atom protocol for ease of use on client side
+		- Expose URIs for Json format as well as the original atom format
+	- Administration of Collection/Workspace/Service Document Features
+		- CRUD Workspaces
+			- (Later?) CRUD Federated Server Membership (? Is it appropriate at Workspace level?)
+			- CRUD Collections
+				- CRUD Allowed Resource types
+				- CRUD Categories
+				- (Later) CRUD Federated Server Membership (? Is it appropriate at Collection level?)
+	- Hidden Nodes
+		- Need to examine how this might be made possible.
+			- Perhaps with membership of "Federation proxy servers": even individual users could theoretically host them
+			- These proxy servers could actually act as load balancers even, directing people to different proxies semi-anonymously
+				- Only proxy server would know hidden nodes: but that would be a structural weakness
+
+* Sprints
+	- 1: Core Features
+		- Decide on URI format standards, ID generation
+		- Create AtomPub-compatible server in MVC, built to spec
+			- Create all standard operations
+			- Build with atom XML output not meant to be only output format for entries.
+				- Also need JSON, possibly HTML
+		- Build persistence infrastructure for posted resources
+			- Entries
+			- MIME content
+		- Use naive user authentication
+		- JSON and Atom output
+	- 2: Querying and Geographic Location improvements
+		- Determine how Querying should fit into Uri scheme
+		- Build querying features for collections
+		- Create Geographic extension, integrate into entries
+		
+	- 3: Federated Membership, Public
+		- Determine whether Workspaces can be used to define Federation endpoints/interfaces
+		- Define expected "workflow" of articles through a Federation
+		- Create naive Federated Membership protocol based on workflow
+		- Assume full trust for this iteration
+	- 4: Federated Membership, Secured
+		- Determine how members will prevent unauthorized:
+			- joining of federation
+			- removing from federation
+			- Spoofing/impersonating a federation server
+		- Determine how members will safely propagate adds and updates to other federation members
+		- Create/use more useful authentication scheme
+			- OAuth?
+		- Determine how users will be able to auth with any server in the federation
+	- 5: Hidden Node/Proxy features
+		- Need more thorough examination of this
+	- 6: Ratings and Tags
+		- Create Federation-friendly rating and tag system

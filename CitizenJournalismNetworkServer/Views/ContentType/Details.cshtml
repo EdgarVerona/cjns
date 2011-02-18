@@ -1,0 +1,19 @@
+@model CitizenJournalismNetworkServer.Models.ContentType
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>ContentType</legend>
+
+    <div class="display-label">Text</div>
+    <div class="display-field">@Model.Text</div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
+

@@ -1,0 +1,6 @@
+﻿@using CitizenJournalismNetworkServer.Models
+@using CitizenJournalismNetworkServer.Helpers
+@model Service     
+{
+    "workspaces": @(JsonHelper.RenderJsonCollection<Workspace>("_appWorkspace", Model.Workspaces, this.Page))
+}

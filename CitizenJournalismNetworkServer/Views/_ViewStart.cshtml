@@ -1,0 +1,8 @@
+﻿@using CitizenJournalismNetworkServer.Utility;
+@using CitizenJournalismNetworkServer.Enumerations;
+@{  
+    if (UtilityContentType.GetContentType(ViewContext.Controller.ControllerContext).Equals(ContentTypeConstants.Html))
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+}

@@ -1,0 +1,15 @@
+﻿@using CitizenJournalismNetworkServer.Models
+@using CitizenJournalismNetworkServer.Helpers
+@using CitizenJournalismNetworkServer.Utility
+@model Link
+
+<link 
+    href="@Model.Href"
+    @OptionalRenderingHelper.RenderAttributeifExists("rel", UtilityRelationship.GetRelationshipAttributeValue(Model.Rel))
+    @OptionalRenderingHelper.RenderAttributeifExists("type", Model.Type)
+    @OptionalRenderingHelper.RenderAttributeifExists("hreflang", Model.Language)
+    @OptionalRenderingHelper.RenderAttributeifExists("title", Model.Title)
+    @(OptionalRenderingHelper.RenderAttributeIfExists<long?>("length", Model.Length))
+>
+
+</link>

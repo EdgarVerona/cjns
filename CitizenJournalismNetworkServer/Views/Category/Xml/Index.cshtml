@@ -1,0 +1,20 @@
+@model IEnumerable<CitizenJournalismNetworkServer.Models.Category>
+
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Categories>
+@foreach (var item in Model) {
+	<Category>
+			<Term>
+			@item.Term
+		</Term>
+			<Scheme>
+			@item.Scheme
+		</Scheme>
+			<Label>
+			@item.Label
+		</Label>
+	</Category>
+}
+</Categories>
+

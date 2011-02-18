@@ -1,0 +1,12 @@
+﻿@using CitizenJournalismNetworkServer.Models
+@model Workspace
+
+<workspace>
+    <atom:title>@Model.Title</atom:title>
+    @foreach (Collection collection in Model.Collections)
+    {
+        @Html.Partial("_appCollection", collection);
+    }
+</workspace>
+
+

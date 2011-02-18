@@ -1,0 +1,18 @@
+﻿@using CitizenJournalismNetworkServer.Models
+@using CitizenJournalismNetworkServer.Helpers
+@model Feed
+{
+    "title": "@Model.Title",
+    @(JsonHelper.RenderJsonCollection<Person>("_atomAuthor", Model.Authors, this.Page)),
+    @(JsonHelper.RenderJsonCollection<Category>("_atomCategory", Model.Categories, this.Page)),
+    @(JsonHelper.RenderJsonCollection<Person>("_atomContributor", Model.Contributors, this.Page)),
+    "generator": @Html.Partial("_atomGenerator", Model.Generator),
+    "icon": "@Model.IconUri",
+    "id": "@Model.AtomId",
+    @(JsonHelper.RenderJsonCollection<Link>("_atomLink", Model.Links, this.Page)),
+    "logo": "@Model.LogoUri",
+    "rights": "@Model.Rights",
+    "subtitle": "@Model.Subtitle",
+    "updated": "@Model.DateUpdated.ToString()",
+    @(JsonHelper.RenderJsonCollection<Entry>("_atomEntry", Model.Entries, this.Page))
+}

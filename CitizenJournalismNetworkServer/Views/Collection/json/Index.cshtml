@@ -1,0 +1,12 @@
+@model IEnumerable<CitizenJournalismNetworkServer.Models.Collection>
+
+{[
+	@foreach (var item in Model) {
+		@:{
+					@:"Href": "@item.Href",
+					@:"Title": "@item.Title",
+					@:"AreCategoriesFixed": "@item.AreCategoriesFixed",
+				@:},
+	}
+]}
+

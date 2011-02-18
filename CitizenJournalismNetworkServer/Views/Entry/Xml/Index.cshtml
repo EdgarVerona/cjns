@@ -1,0 +1,32 @@
+@model IEnumerable<CitizenJournalismNetworkServer.Models.Entry>
+
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Entries>
+@foreach (var item in Model) {
+	<Entry>
+			<AtomId>
+			@item.AtomId
+		</AtomId>
+			<DatePublished>
+			@String.Format("{0:g}", item.DatePublished)
+		</DatePublished>
+			<Rights>
+			@item.Rights
+		</Rights>
+			<Summary>
+			@item.Summary
+		</Summary>
+			<Title>
+			@item.Title
+		</Title>
+			<DateUpdated>
+			@String.Format("{0:g}", item.DateUpdated)
+		</DateUpdated>
+			<IsDraft>
+			@item.IsDraft
+		</IsDraft>
+		</Entry>
+}
+</Entries>
+

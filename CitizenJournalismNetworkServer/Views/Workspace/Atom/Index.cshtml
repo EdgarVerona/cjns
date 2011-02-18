@@ -1,0 +1,8 @@
+@model IEnumerable<CitizenJournalismNetworkServer.Models.Workspace>
+<?xml version="1.0" encoding="UTF-8"?>
+<Workspaces>
+	@foreach (var item in Model) {
+		@Html.Partial("Atom/_Workspace", item)
+	}
+</Workspaces>
+

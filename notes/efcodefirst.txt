@@ -1,0 +1,4 @@
+
+* EFCodeFirst -> Composition!
+	- http://weblogs.asp.net/manavi/archive/2010/12/11/entity-association-mapping-with-code-first-part-1-one-to-one-associations.aspx
+	- 

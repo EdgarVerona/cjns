@@ -1,0 +1,10 @@
+﻿@using CitizenJournalismNetworkServer.Models
+@model Service
+           
+<service>
+    @foreach (Workspace workspace in Model.Workspaces)
+    {
+        @Html.Partial("_appWorkspace", workspace);
+    }
+</service>
+

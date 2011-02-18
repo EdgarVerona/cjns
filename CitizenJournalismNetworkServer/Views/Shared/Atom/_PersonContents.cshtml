@@ -1,0 +1,7 @@
+﻿@using CitizenJournalismNetworkServer.Models
+@using CitizenJournalismNetworkServer.Helpers
+@model Person
+           
+<name>@Model.Name</name>
+@OptionalRenderingHelper.RenderTagifExists("uri", Model.Uri)
+@OptionalRenderingHelper.RenderTagifExists("email", Model.Email)

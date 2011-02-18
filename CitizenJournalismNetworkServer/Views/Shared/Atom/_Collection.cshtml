@@ -1,0 +1,16 @@
+﻿@using CitizenJournalismNetworkServer.Helpers
+@using CitizenJournalismNetworkServer.Models
+@model Collection
+<collection href="@Model.Href">
+    <atom:title>@Model.Title</atom:title>
+    <categories fixed="@Model.AreCategoriesFixed">
+        @foreach (Category category in Model.Categories)
+        {
+            @Html.Partial("_appCategory", category)
+        }
+    </categories>
+    @foreach (ContentType contentType in Model.AcceptedTypes)
+    {
+        @Html.Partial("_appAccept", contentType)
+    }
+</Collection>
