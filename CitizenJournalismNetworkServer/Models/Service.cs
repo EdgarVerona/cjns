@@ -7,6 +7,6 @@ namespace CitizenJournalismNetworkServer.Models
 {
     public class Service
     {
-        public virtual ICollection<Workspace> Workspaces { get; set; }
+        public virtual IEnumerable<Workspace> Workspaces { get; set; }
     }
 }

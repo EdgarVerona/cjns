@@ -2,8 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using CitizenJournalismNetworkServer.Models;
 
-namespace CitizenJournalismNetworkServer.Models
+namespace CitizenJournalismNetworkServer.Repositories
 { 
     public class PersonRepository : IPersonRepository
     {

@@ -8,6 +8,7 @@ using CitizenJournalismNetworkServer.Enumerations;
 using CitizenJournalismNetworkServer.Attributes;
 using System.Web.Script.Serialization;
 using CitizenJournalismNetworkServer.Utility;
+using CitizenJournalismNetworkServer.Repositories;
 
 namespace CitizenJournalismNetworkServer.Controllers
 {   

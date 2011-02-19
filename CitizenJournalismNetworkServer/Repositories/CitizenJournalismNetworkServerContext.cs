@@ -4,24 +4,26 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Data.Entity.Database;
+using CitizenJournalismNetworkServer.Models;
 
-namespace CitizenJournalismNetworkServer.Models
+
+namespace CitizenJournalismNetworkServer.Repositories
 {
     public class CitizenJournalismNetworkServerContext : DbContext
     {
-        public DbSet<CitizenJournalismNetworkServer.Models.Workspace> Workspaces { get; set; }
+        public DbSet<Workspace> Workspaces { get; set; }
     
-        public DbSet<CitizenJournalismNetworkServer.Models.Person> People { get; set; }
+        public DbSet<Person> People { get; set; }
     
-        public DbSet<CitizenJournalismNetworkServer.Models.Link> Links { get; set; }
+        public DbSet<Link> Links { get; set; }
     
-        public DbSet<CitizenJournalismNetworkServer.Models.Entry> Entries { get; set; }
+        public DbSet<Entry> Entries { get; set; }
     
-        public DbSet<CitizenJournalismNetworkServer.Models.Category> Categories { get; set; }
+        public DbSet<Category> Categories { get; set; }
     
-        public DbSet<CitizenJournalismNetworkServer.Models.ContentType> ContentTypes { get; set; }
+        public DbSet<ContentType> ContentTypes { get; set; }
     
-        public DbSet<CitizenJournalismNetworkServer.Models.Collection> Collections { get; set; }
+        public DbSet<Collection> Collections { get; set; }
     
         public CitizenJournalismNetworkServerContext()
         {

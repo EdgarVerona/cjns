@@ -5,6 +5,8 @@ using System.Web;
 using System.Web.Mvc;
 using CitizenJournalismNetworkServer.Models;
 using System.Globalization;
+using CitizenJournalismNetworkServer.Repositories;
+
 
 namespace CitizenJournalismNetworkServer.Controllers
 {   
