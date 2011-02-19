@@ -1,12 +1,7 @@
+@using CitizenJournalismNetworkServer.Helpers
+@using CitizenJournalismNetworkServer.Models
 @model IEnumerable<CitizenJournalismNetworkServer.Models.Collection>
-
-{[
-	@foreach (var item in Model) {
-		@:{
-					@:"Href": "@item.Href",
-					@:"Title": "@item.Title",
-					@:"AreCategoriesFixed": "@item.AreCategoriesFixed",
-				@:},
-	}
-]}
+{
+	@(JsonHelper.RenderJsonCollection<Collection>("Json/_Collection", Model, this.Page))
+}
 
