@@ -26,7 +26,7 @@ namespace CitizenJournalismNetworkServer.Controllers
 
         //
         // GET: /Entry/
-        public ActionResult Index(string type)
+        public ActionResult Index()
         {
             return View(this.repository.GetAllEntries());
         }
@@ -34,7 +34,7 @@ namespace CitizenJournalismNetworkServer.Controllers
         //
         // GET: /Entry/Details/5
 
-        public ActionResult Details(int id, string type)
+        public ActionResult Details(int id)
         {
             return View(this.repository.GetById(id));
         }

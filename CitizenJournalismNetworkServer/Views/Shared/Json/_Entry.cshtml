@@ -3,6 +3,6 @@
 @model Entry
 
 {
-    @Html.Partial("_atomEntryContents", Model),
-    "source": @Html.Partial("_atomSource", Model.Source)
+    @Html.Partial("_EntryContents", Model),
+    "source": @Html.Partial("_Source", Model.Source)
 }

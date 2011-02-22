@@ -24,6 +24,11 @@ namespace CitizenJournalismNetworkServer.Models
         public virtual ICollection<ContentType> AcceptedTypes { get; set; }
 
         public virtual ICollection<Category> Categories { get; set; }
+
+        public DateTime DateCreated { get; set; }
+
+        public string AtomId { get; set; }
+
     }
 
 }

@@ -3,16 +3,16 @@
 @model Feed
 {
     "title": "@Model.Title",
-    @(JsonHelper.RenderJsonCollection<Person>("_atomAuthor", Model.Authors, this.Page)),
-    @(JsonHelper.RenderJsonCollection<Category>("_atomCategory", Model.Categories, this.Page)),
-    @(JsonHelper.RenderJsonCollection<Person>("_atomContributor", Model.Contributors, this.Page)),
-    "generator": @Html.Partial("_atomGenerator", Model.Generator),
+    "authors": @(JsonHelper.RenderJsonCollection<Person>("_Author", Model.Authors, this)),
+    "categories": @(JsonHelper.RenderJsonCollection<Category>("_Category", Model.Categories, this)),
+    "contributors": @(JsonHelper.RenderJsonCollection<Person>("_Contributor", Model.Contributors, this)),
+    "generator": @Html.Partial("_Generator", Model.Generator),
     "icon": "@Model.IconUri",
     "id": "@Model.AtomId",
-    @(JsonHelper.RenderJsonCollection<Link>("_atomLink", Model.Links, this.Page)),
+    "links": @(JsonHelper.RenderJsonCollection<Link>("_Link", Model.Links, this)),
     "logo": "@Model.LogoUri",
     "rights": "@Model.Rights",
     "subtitle": "@Model.Subtitle",
     "updated": "@Model.DateUpdated.ToString()",
-    @(JsonHelper.RenderJsonCollection<Entry>("_atomEntry", Model.Entries, this.Page))
+    "entries": @(JsonHelper.RenderJsonCollection<Entry>("_Entry", Model.Entries, this))
 }

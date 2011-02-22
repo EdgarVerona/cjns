@@ -1,0 +1,19 @@
+
+* AutoFac
+	- IOC Container
+		- Configuration-based dependencies
+		- Core concepts:
+			- Goal: Turn classes into interchangeable "Components" that can have their dependencies controlled by the application using them.
+			- How:
+				- Accept all dependencies in a class a constructor parameters
+				- Dependencies should be based on interfaces, not concrete classes, so they can be replaced
+				- Register these Component classes with an IOC Conatiner.
+				- When a class is needed, call the IOC Container to acquire the instance of the Component.
+				- 
+	- Registering Components
+		- Register call sets up the dependencies for a single component
+		- Any dependencies must also have their creation registered as well.
+		- builder.RegisterControllers (from the AutoFac.Mvc namespace) is a shortcut to register all controllers in an assembly in the correct manner (creating an Instance Per HTTP Request) and using the constructor with the most resolvable parameters as it can at runtime.
+		- For now, we'll just register Controllers and Repositories.
+			- In particular for Repositories, we can now drop-in replace them with mocks for unit tests.
+		- 

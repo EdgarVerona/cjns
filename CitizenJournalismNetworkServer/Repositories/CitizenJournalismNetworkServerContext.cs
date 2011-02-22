@@ -68,6 +68,9 @@ namespace CitizenJournalismNetworkServer.Repositories
 
             // An Entry is composed of itself AND Content.
             modelBuilder.ComplexType<Content>();
+
+            // An Entry belongs to a Collection, which has many Entries.
+            modelBuilder.Entity<Entry>().HasRequired<Collection>(entry => entry.Collection).WithMany();
             
         }
     }

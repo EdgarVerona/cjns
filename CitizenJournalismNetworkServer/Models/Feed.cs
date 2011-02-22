@@ -10,6 +10,16 @@ namespace CitizenJournalismNetworkServer.Models
 {
     public class Feed
     {
+        public Feed()
+        {
+            this.Authors = new List<Person>();
+            this.Categories = new List<Category>();
+            this.Generator = new Generator();
+            this.Entries = new List<Entry>();
+            this.Contributors = new List<Person>();
+            this.Links = new List<Link>();
+        }
+
         public virtual ICollection<Person> Authors { get; set; }
 
         public virtual ICollection<Category> Categories { get; set; }

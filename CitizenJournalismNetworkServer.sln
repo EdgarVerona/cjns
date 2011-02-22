@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CitizenJournalismNetworkServer", "CitizenJournalismNetworkServer\CitizenJournalismNetworkServer.csproj", "{2B39067A-850A-480F-B584-924362330775}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CitizenJournalismNetworkServer.Test", "CitizenJournalismNetworkServer.Test\CitizenJournalismNetworkServer.Test.csproj", "{A008801E-EE31-4870-9398-BE1D77507183}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,6 +15,10 @@ Global
 		{2B39067A-850A-480F-B584-924362330775}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2B39067A-850A-480F-B584-924362330775}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2B39067A-850A-480F-B584-924362330775}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A008801E-EE31-4870-9398-BE1D77507183}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A008801E-EE31-4870-9398-BE1D77507183}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A008801E-EE31-4870-9398-BE1D77507183}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A008801E-EE31-4870-9398-BE1D77507183}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

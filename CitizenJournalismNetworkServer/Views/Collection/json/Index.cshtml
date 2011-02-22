@@ -2,6 +2,6 @@
 @using CitizenJournalismNetworkServer.Models
 @model IEnumerable<CitizenJournalismNetworkServer.Models.Collection>
 {
-	@(JsonHelper.RenderJsonCollection<Collection>("Json/_Collection", Model, this.Page))
+	@(JsonHelper.RenderJsonCollection<Collection>("Json/_Collection", Model, this))
 }
 

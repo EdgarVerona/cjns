@@ -8,6 +8,11 @@ namespace CitizenJournalismNetworkServer.Models
 {
     public class Workspace
     {
+        public Workspace()
+        {
+            this.Collections = new List<Collection>();
+        }
+        
         public int Id { get; set; }
 
         [Required]

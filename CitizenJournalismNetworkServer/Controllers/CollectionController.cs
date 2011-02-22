@@ -9,40 +9,50 @@ using CitizenJournalismNetworkServer.Attributes;
 using System.Web.Script.Serialization;
 using CitizenJournalismNetworkServer.Utility;
 using CitizenJournalismNetworkServer.Repositories;
+using CitizenJournalismNetworkServer.Factories;
 
 namespace CitizenJournalismNetworkServer.Controllers
 {   
 	[JsonAllowGetAttribute]
 	public class CollectionController : Controller
 	{
-	    private readonly ICollectionRepository repository;
+	    private readonly ICollectionRepository _repository;
+        private readonly IFeedFactory _feedFactory;
 		
 
-		// If you are using Dependency Injection, you can delete the following constructor
-		public CollectionController() : this(new CollectionRepository())
+		public CollectionController(ICollectionRepository r, IFeedFactory feedFactory)
 		{
+			_repository = r;
+            _feedFactory = feedFactory;
 		}
 
-		public CollectionController(ICollectionRepository r)
-		{
-			this.repository = r;
-		}
 
-		//
-		// GET: /Collection/
+        //-------------------------------------------------------------------------------------------
+        //-------------------------------------------------------------------------------------------
+        //-- ATOM Views
+        //-------------------------------------------------------------------------------------------
+        //-------------------------------------------------------------------------------------------
 
-		public ActionResult Index(string type)
-		{
-			return View(this.repository.GetAllCollections());
-		}
+
 
 		//
 		// GET: /Collection/Details/5
 
 		public ActionResult Details(int id, string type)
 		{
-			return View(this.repository.GetById(id));
+            return View("Feed", _feedFactory.GetByCollectionId(id));
 		}
+
+
+
+
+        //-------------------------------------------------------------------------------------------
+        //-------------------------------------------------------------------------------------------
+        //-- HTML Only Views (for temporary testing purposes only)
+        //-------------------------------------------------------------------------------------------
+        //-------------------------------------------------------------------------------------------
+
+
 
 		//
 		// GET: /Collection/Create
@@ -61,8 +71,8 @@ namespace CitizenJournalismNetworkServer.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-			  this.repository.Add(d);
-			  this.repository.Save();
+			  this._repository.Add(d);
+			  this._repository.Save();
 			  return RedirectToAction("Index");  
 			}
 			return View();
@@ -73,7 +83,7 @@ namespace CitizenJournalismNetworkServer.Controllers
  
 		public ActionResult Edit(int id)
 		{
-			 return View(this.repository.GetById(id));
+			 return View(this._repository.GetById(id));
 		}
 
 		//
@@ -82,10 +92,10 @@ namespace CitizenJournalismNetworkServer.Controllers
 		[HttpPost]
 		public ActionResult Edit(int id, FormCollection form)
 		{
-			var d = this.repository.GetById(id);
+			var d = this._repository.GetById(id);
 			if (TryUpdateModel(d))
 			{
-				this.repository.Save();
+				this._repository.Save();
 				return RedirectToAction("Index");
 			}
 			return View();
@@ -96,7 +106,7 @@ namespace CitizenJournalismNetworkServer.Controllers
  
 		public ActionResult Delete(int id)
 		{
-			return View(this.repository.GetById(id));
+			return View(this._repository.GetById(id));
 		}
 
 		//
@@ -105,8 +115,8 @@ namespace CitizenJournalismNetworkServer.Controllers
 		[HttpPost]
 		public ActionResult Delete(int id, FormCollection collection)
 		{
-			this.repository.Delete(id);
-			this.repository.Save();
+			this._repository.Delete(id);
+			this._repository.Save();
 
 			return RedirectToAction("Index");
 		}

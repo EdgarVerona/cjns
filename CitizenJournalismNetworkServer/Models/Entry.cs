@@ -10,12 +10,25 @@ namespace CitizenJournalismNetworkServer.Models
 {
     public class Entry
     {
+
+        public Entry()
+        {
+            this.Authors = new List<Person>();
+            this.Categories = new List<Category>();
+            this.Collection = new Collection();
+            this.Content = new Content();
+            this.Contributors = new List<Person>();
+            this.Links = new List<Link>();
+        }
+
         [DatabaseGenerated(System.ComponentModel.DataAnnotations.DatabaseGenerationOption.Identity)]
         public int Id { get; set; }
 
         public virtual ICollection<Person> Authors { get; set; }
 
         public virtual ICollection<Category> Categories { get; set; }
+
+        public virtual Collection Collection { get; set; }
 
         //+++ Temporarily disabled until I figure out how to set up the composite relationship.
         public Content Content { get; set; }
@@ -44,10 +57,6 @@ namespace CitizenJournalismNetworkServer.Models
         public bool IsDraft { get; set; }
 
 
-        public Entry()
-        {
-            this.Content = new Content();
-        }
 
     }
 }

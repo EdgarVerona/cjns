@@ -4,22 +4,22 @@
 
 @foreach (Person author in Model.Authors)
 {
-    @Html.Partial("_atomAuthor", author)
+    @Html.Partial("_Author", author)
 }
 @foreach (Category category in Model.Categories)
 {
-    @Html.Partial("_atomCategory", category)
+    @Html.Partial("_Category", category)
 }
 @foreach (Person contributor in Model.Contributors)
 {
-    @Html.Partial("_atomContributor", contributor)
+    @Html.Partial("_Contributor", contributor)
 }
 <id>@Model.AtomId</id>
 @foreach (Link link in Model.Links)
 {
-    @Html.Partial("_atomLink", link)
+    @Html.Partial("_Link", link)
 }
-@Html.Partial("_atomContent", Model.Content)
+@Html.Partial("_Content", Model.Content)
 @OptionalRenderingHelper.RenderTagifExists("published", AtomDateHelper.RenderDate(Model.DatePublished))
 @OptionalRenderingHelper.RenderTagifExists("rights", Model.Rights)
 @OptionalRenderingHelper.RenderTagifExists("summary", Model.Summary)

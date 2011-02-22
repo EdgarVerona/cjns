@@ -2,5 +2,7 @@
 *.user
 CitizenJournalismNetworkServer/bin/*
 CitizenJournalismNetworkServer/obj/*
+CitizenJournalismNetworkServer.Test/bin/*
+CitizenJournalismNetworkServer.Test/obj/*
 *.log
 Thumbs.db

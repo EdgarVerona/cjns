@@ -11,7 +11,7 @@ namespace CitizenJournalismNetworkServer.Helpers
     public class JsonHelper
     {
 
-        public static string RenderJsonCollection<T>(string partialClassName, IEnumerable<T> modelCollection, WebViewPage<T> page)
+        public static string RenderJsonCollection<T>(string partialClassName, IEnumerable<T> modelCollection, WebViewPage page)
         {
             StringBuilder builder = new StringBuilder();
 

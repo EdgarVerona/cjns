@@ -2,12 +2,12 @@
 @using CitizenJournalismNetworkServer.Helpers
 @model Entry
            
-"authors": @(JsonHelper.RenderJsonCollection<Person>("_atomAuthor", Model.Authors, this.Page)),
-"categories": @(JsonHelper.RenderJsonCollection<Category>("_atomCategory", Model.Categories, this.Page)),
-"contributors": @(JsonHelper.RenderJsonCollection<Person>("_atomContributor", Model.Contributors, this.Page)),
+"authors": @(JsonHelper.RenderJsonCollection<Person>("_Author", Model.Authors, this)),
+"categories": @(JsonHelper.RenderJsonCollection<Category>("_Category", Model.Categories, this)),
+"contributors": @(JsonHelper.RenderJsonCollection<Person>("_Contributor", Model.Contributors, this)),
 "id": "@Model.AtomId",
-"links": @(JsonHelper.RenderJsonCollection<Link>("_atomLink", Model.Links, this.Page)),
-"content": @Html.Partial("_atomContent", Model.Content),
+"links": @(JsonHelper.RenderJsonCollection<Link>("_Link", Model.Links, this)),
+"content": @Html.Partial("_Content", Model.Content),
 "published": "@Model.DatePublished.ToString()",
 "rights": "@Model.Rights",
 "summary": "@Model.Summary",

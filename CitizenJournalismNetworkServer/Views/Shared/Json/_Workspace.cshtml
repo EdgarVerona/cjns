@@ -4,5 +4,5 @@
 
 {
     "title": "@Model.Title",
-    "collections": @(JsonHelper.RenderJsonCollection<Collection>("_appCollection", Model.Collections, this.Page))
+    "collections": @(JsonHelper.RenderJsonCollection<Collection>("_appCollection", Model.Collections, this))
 }
