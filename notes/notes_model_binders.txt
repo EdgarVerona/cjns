@@ -1,0 +1,18 @@
+
+* Model Binders
+	- Resources:
+		- http://msdn.microsoft.com/en-us/library/dd410405.aspx
+		- http://mikedellanoce.blogspot.com/2009/12/aspnet-mvc-xml-model-binder.html
+		- http://odetocode.com/blogs/scott/archive/2009/04/27/6-tips-for-asp-net-mvc-model-binding.aspx
+			- http://blogs.imeta.co.uk/HHariri/archive/2009/05/07/asp.net-mvc-quotmodelsquot-the-lonesome-folder.aspx
+				- Best practice suggestions for binding to View Models instead of Domain Entity Models.
+				- This makes particularly good sense in our case when we're expecing input: the data we receive is not going to have, nor would we need, child entities and such (though we'll get Atom IDs for them or other identifiers, which we'll need to be able to use to locate the children).
+	- Model Binder Responsibilities
+		- Map posted values to .NET Framework Types
+		- Pass hydrated type to Action method
+	- Approaches
+		- Implement IModelBinder
+			- http://mikedellanoce.blogspot.com/2009/12/aspnet-mvc-xml-model-binder.html gives an example of this
+		- Inherit from an existing ModelBinder (such as DefaultModelBinder)
+			- http://www.lostechies.com/blogs/jimmy_bogard/archive/2009/03/17/a-better-model-binder.aspx for a good example
+	- 

@@ -105,6 +105,7 @@
     <Compile Include="Helpers\AtomDateHelper.cs" />
     <Compile Include="Helpers\JsonHelper.cs" />
     <Compile Include="Helpers\OptionalRenderingHelper.cs" />
+    <Compile Include="ModelBinders\AtomEntryModelBinder.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Repositories\CategoryRepository.cs" />
     <Compile Include="Repositories\CitizenJournalismNetworkServerContext.cs" />
