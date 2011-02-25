@@ -15,4 +15,22 @@
 			- http://mikedellanoce.blogspot.com/2009/12/aspnet-mvc-xml-model-binder.html gives an example of this
 		- Inherit from an existing ModelBinder (such as DefaultModelBinder)
 			- http://www.lostechies.com/blogs/jimmy_bogard/archive/2009/03/17/a-better-model-binder.aspx for a good example
-	- 
+	-
+	
+* Where to implement the "creation from XML" for Models
+	- Static method on Model itself?
+		- Would be nice to have deeply Model-dependent features in a single class.
+			- Let's say I need to add a new property: this would minimize the number of files to be inspected for changes.
+			- However, should the Model be concerned with how it builds itself?
+	- Factory?
+		- Would separate concern of building the Model from the Model itself.
+		- I wonder if it is ideal to pass even the properties specific to creation in the Factory's constructor.
+			- Would make each Factory instance highly specific, which I suppose could be viewed as both a benefit and a drawback.
+			- Would standardize the interface for Factories.
+			- Could make Factories cumbersome to use.
+		- AutoFac provides ability to pass in parameters to Factory Methods as needed
+	- Abstract Factory?
+		- Can I take these similar factories and make an Abstract factory that poops out the Factories I want to produce the models I want based on the currently inspected node's name?
+			- Ex: "<entry>" would route it to create an AtomEntryFactory, while "<author>" would route it to create an AtomPersonFactory.
+		- Theoretically this would work: but I couldn't return a strongly typed class from it.  Couldn't use generics.  Would end up with a generic "object" that I'd have to cast to the right type, which defeats the purpose.
+			- I guess I could use dynamic type... but it feels like a code smell to me.  Does "var" feel like a code smell to anyone else?

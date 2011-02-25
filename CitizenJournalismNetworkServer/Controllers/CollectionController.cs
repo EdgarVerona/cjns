@@ -40,7 +40,7 @@ namespace CitizenJournalismNetworkServer.Controllers
 
 		public ActionResult Details(int id, string type)
 		{
-            return View("Feed", _feedFactory.GetByCollectionId(id));
+            return View("Feed", _feedFactory.CreateByCollectionId(id));
 		}
 
 

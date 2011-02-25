@@ -10,7 +10,7 @@ namespace CitizenJournalismNetworkServer.Factories
 
     public interface IFeedFactory
     {
-        Feed GetByCollectionId(int collectionId);
+        Feed CreateByCollectionId(int collectionId);
     }
 
     public class FeedFactory : IFeedFactory
@@ -26,7 +26,7 @@ namespace CitizenJournalismNetworkServer.Factories
             _generatorFactory = generatorFactory;
         }
 
-        public Feed GetByCollectionId(int collectionId)
+        public Feed CreateByCollectionId(int collectionId)
         {
             Collection collection = _collectionRepository.GetById(collectionId);
 
@@ -47,7 +47,7 @@ namespace CitizenJournalismNetworkServer.Factories
                 Authors = new List<Person>(),
                 Contributors = new List<Person>(),
                 AtomId = collection.AtomId,
-                Generator = _generatorFactory.GetGenerator(),
+                Generator = _generatorFactory.CreateGenerator(),
                 Title = collection.Title
             };
 

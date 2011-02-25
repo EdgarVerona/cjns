@@ -17,3 +17,6 @@
 		- For now, we'll just register Controllers and Repositories.
 			- In particular for Repositories, we can now drop-in replace them with mocks for unit tests.
 		- 
+		
+	- Notes on best practices and ideal integration points for IoC
+		- https://code.google.com/p/autofac/wiki/ExistingApplications

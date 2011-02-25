@@ -9,7 +9,7 @@ namespace CitizenJournalismNetworkServer.Factories
 
     public interface IGeneratorFactory
     {
-        Generator GetGenerator();
+        Generator CreateGenerator();
     }
 
     public class GeneratorFactory : IGeneratorFactory
@@ -20,7 +20,7 @@ namespace CitizenJournalismNetworkServer.Factories
         }
 
 
-        public Generator GetGenerator()
+        public Generator CreateGenerator()
         {
             return new Generator()
             {

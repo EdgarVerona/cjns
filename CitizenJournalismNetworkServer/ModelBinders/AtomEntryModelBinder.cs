@@ -3,16 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using CitizenJournalismNetworkServer.Models;
+using CitizenJournalismNetworkServer.Utility;
 
 namespace CitizenJournalismNetworkServer.ModelBinders
 {
 
-    public class AtomEntryModelBinder: DefaultModelBinder
+    public class AtomEntryModelBinder: IModelBinder
     {
 
-        public override object BindModel(ControllerContext controllerContext, ModelBindingContext bindingContext)
+        public object BindModel(ControllerContext controllerContext, ModelBindingContext bindingContext)
         {
-            return base.BindModel(controllerContext, bindingContext);
+            Entry newEntry = new Entry();
+
+            string requestInput = UtilityRequest.GetContent(controllerContext.HttpContext.Request);
+
+            return null;   
         }
 
     }
