@@ -99,7 +99,11 @@
     <Compile Include="Controllers\WorkspaceController.cs" />
     <Compile Include="Engine\MultiOutputViewEngine.cs" />
     <Compile Include="Enumerations\LinkRelationship.cs" />
+    <Compile Include="Factories\Atom\AtomCategoryFactory.cs" />
+    <Compile Include="Factories\Atom\AtomContentFactory.cs" />
     <Compile Include="Factories\Atom\AtomEntryFactory.cs" />
+    <Compile Include="Factories\Atom\AtomLinkFactory.cs" />
+    <Compile Include="Factories\Atom\AtomPersonFactory.cs" />
     <Compile Include="Factories\Atom\IAtomFactory.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -131,6 +135,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Factories\FeedFactory.cs" />
     <Compile Include="Factories\GeneratorFactory.cs" />
+    <Compile Include="Utility\UtilityAtomEntity.cs" />
     <Compile Include="Utility\UtilityContentType.cs" />
     <Compile Include="Utility\UtilityRelationship.cs" />
     <Compile Include="Utility\UtilityRequest.cs" />

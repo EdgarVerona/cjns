@@ -34,5 +34,67 @@ namespace CitizenJournalismNetworkServer.Extensions.Xml
             return node.Value;
         }
 
+        public static DateTime? GetNodeValueAsDateTime(this XmlNode nodeRoot, string xPath, XmlNamespaceManager nsManager, DateTime? defaultValue)
+        {
+            DateTime? result = defaultValue;
+
+            string value = nodeRoot.GetNodeValueAsString(xPath, nsManager, "");
+
+            if (!string.IsNullOrEmpty(value))
+            {
+                try
+                {
+                    result = XmlConvert.ToDateTime(value, XmlDateTimeSerializationMode.Utc);
+                }
+                catch (Exception)
+                {
+                }
+            }
+
+            return result;
+        }
+
+        public static DateTime GetNodeValueAsDateTime(this XmlNode nodeRoot, string xPath, XmlNamespaceManager nsManager, DateTime defaultValue)
+        {
+            DateTime result = defaultValue;
+
+            string value = nodeRoot.GetNodeValueAsString(xPath, nsManager, "");
+
+            if (!string.IsNullOrEmpty(value))
+            {
+                try
+                {
+                    result = XmlConvert.ToDateTime(value, XmlDateTimeSerializationMode.Utc);
+                }
+                catch (Exception)
+                {
+                }
+            }
+
+            return result;
+        }
+
+        public static bool GetNodeValueAsBoolean(this XmlNode nodeRoot, string xPath, XmlNamespaceManager nsManager, bool defaultValue)
+        {
+            bool result = defaultValue;
+
+            string value = nodeRoot.GetNodeValueAsString(xPath, nsManager, "");
+
+            if (!string.IsNullOrEmpty(value))
+            {
+                switch (value.ToLower())
+                {
+                    case "yes":
+                        result = true;
+                        break;
+                    case "no":
+                        result = false;
+                        break;
+                }
+            }
+
+            return result;
+        }
+
     }
 }
