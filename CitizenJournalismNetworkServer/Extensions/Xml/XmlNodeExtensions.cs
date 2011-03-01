@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Xml;
+using CitizenJournalismNetworkServer.Enumerations;
 
 namespace CitizenJournalismNetworkServer.Extensions.Xml
 {
@@ -31,7 +32,34 @@ namespace CitizenJournalismNetworkServer.Extensions.Xml
                 return defaultValue;
             }
 
-            return node.Value;
+            if (node is XmlElement)
+            {
+                return node.InnerText;
+            }
+            else
+            {
+                return node.Value;
+            }
+        }
+
+        public static long? GetNodeValueAsLong(this XmlNode nodeRoot, string xPath, XmlNamespaceManager nsManager, long? defaultValue)
+        {
+            long? result = defaultValue;
+
+            string value = nodeRoot.GetNodeValueAsString(xPath, nsManager, "");
+
+            if (!string.IsNullOrEmpty(value))
+            {
+                try
+                {
+                    result = XmlConvert.ToInt64(value);
+                }
+                catch (Exception)
+                {
+                }
+            }
+
+            return result;
         }
 
         public static DateTime? GetNodeValueAsDateTime(this XmlNode nodeRoot, string xPath, XmlNamespaceManager nsManager, DateTime? defaultValue)
@@ -95,6 +123,7 @@ namespace CitizenJournalismNetworkServer.Extensions.Xml
 
             return result;
         }
+        
 
     }
 }

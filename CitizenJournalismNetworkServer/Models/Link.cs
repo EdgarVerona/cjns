@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using CitizenJournalismNetworkServer.Enumerations;
 using System.ComponentModel.DataAnnotations;
+using CitizenJournalismNetworkServer.Constants;
 
 namespace CitizenJournalismNetworkServer.Models
 {
@@ -14,8 +15,31 @@ namespace CitizenJournalismNetworkServer.Models
         [Required]
         public string Href { get; set; }
 
+        
+        public LinkRelationship RelationshipType 
+        {
+            get
+            {
+                switch (RelationshipLiteral.ToLower())
+                {
+                    case LinkRelationshipConstants.Alternate:
+                        return LinkRelationship.Alternate;
+                    case LinkRelationshipConstants.Enclosure:
+                        return LinkRelationship.Enclosure;
+                    case LinkRelationshipConstants.Related:
+                        return LinkRelationship.Related;
+                    case LinkRelationshipConstants.Self:
+                        return LinkRelationship.Self;
+                    case LinkRelationshipConstants.Via:
+                        return LinkRelationship.Via;
+                    default:
+                        return LinkRelationship.Alternate;
+                }
+            }
+        }
+
         [Required]
-        public LinkRelationship Rel { get; set; }
+        public string RelationshipLiteral { get; set; }
 
         [Required]
         public string Type { get; set; }

@@ -57,6 +57,8 @@ namespace CitizenJournalismNetworkServer
             RegisterFactories(builder);
             RegisterControllers(builder);
 
+            RegisterModelBinders(builder);
+
             var container = builder.Build();
             
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
@@ -71,19 +73,16 @@ namespace CitizenJournalismNetworkServer
             RegisterRoutes(RouteTable.Routes);
         }
 
-
+        private static void RegisterModelBinders(ContainerBuilder builder)
+        {
+            //+++ TODO: Need to check that this will actually provide the binding we desire.
+            builder.RegisterModelBinderProvider();
+            builder.RegisterModelBinders(typeof(MvcApplication).Assembly);
+        }
 
         private static void RegisterControllers(ContainerBuilder builder)
         {
             builder.RegisterControllers(typeof(MvcApplication).Assembly);
-            
-            /* +++ NOTE: Essentially, the above should be doing something like the following for each Controller, wiring up to as many constructor params as it can find.
-             * builder.Register<ServiceController>(
-                component => new ServiceController(
-                    [RESOLVE AS MANY PARAMS AS IT CAN]
-                )
-            ).InstancePerHttpRequest();
-            */
         }
 
 

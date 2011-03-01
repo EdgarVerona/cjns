@@ -15,7 +15,13 @@ namespace CitizenJournalismNetworkServer.Models
         public string SourceUri { get; set; }
 
         [Required]
-        public bool IsExternallySourced { get; set; }
+        public bool IsExternallySourced 
+        {
+            get
+            {
+                return (!string.IsNullOrEmpty(SourceUri));
+            }
+        }
 
         public string Text { get; set; }
 

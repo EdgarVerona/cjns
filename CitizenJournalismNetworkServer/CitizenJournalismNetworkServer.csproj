@@ -102,6 +102,7 @@
     <Compile Include="Factories\Atom\AtomCategoryFactory.cs" />
     <Compile Include="Factories\Atom\AtomContentFactory.cs" />
     <Compile Include="Factories\Atom\AtomEntryFactory.cs" />
+    <Compile Include="Factories\Atom\AtomFactory.cs" />
     <Compile Include="Factories\Atom\AtomLinkFactory.cs" />
     <Compile Include="Factories\Atom\AtomPersonFactory.cs" />
     <Compile Include="Factories\Atom\IAtomFactory.cs" />
@@ -112,7 +113,9 @@
     <Compile Include="Helpers\JsonHelper.cs" />
     <Compile Include="Helpers\OptionalRenderingHelper.cs" />
     <Compile Include="ModelBinders\AtomEntryModelBinder.cs" />
+    <Compile Include="ModelBinders\AtomMediaContentModelBinder.cs" />
     <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Models\MediaContent.cs" />
     <Compile Include="Repositories\CategoryRepository.cs" />
     <Compile Include="Repositories\CitizenJournalismNetworkServerContext.cs" />
     <Compile Include="Models\Collection.cs" />

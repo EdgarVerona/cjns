@@ -9,7 +9,7 @@ using CitizenJournalismNetworkServer.Utility;
 
 namespace CitizenJournalismNetworkServer.Factories.Atom
 {
-    public class AtomEntryFactory: IAtomFactory<Entry>
+    public class AtomEntryFactory: AtomFactory<Entry>, IAtomFactory<Entry>
     {
         private IAtomFactory<Person> _authorFactory;
         private IAtomFactory<Person> _contributorFactory;
@@ -33,48 +33,26 @@ namespace CitizenJournalismNetworkServer.Factories.Atom
 
         #region IAtomFactory<Entry> Members
 
-        public Entry CreateFromAtomXml(string atomXml)
-        {
-            NameTable nameTable = new NameTable();
-            nameTable.Add("atom");
-            nameTable.Add("app");
 
-            XmlDocument doc = new XmlDocument(nameTable);
-            doc.LoadXml(atomXml);
-
-            return CreateFromAtomXml(doc);
-        }
-
-
-        public Entry CreateFromAtomXml(XmlDocument atomDocument)
-        {
-            NameTable nameTable = new NameTable();
-            nameTable.Add("atom");
-            nameTable.Add("app");
-            XmlNamespaceManager namespaceManager = new XmlNamespaceManager(nameTable);
-
-            return CreateFromAtomXml(atomDocument, namespaceManager);
-        }
-
-        public Entry CreateFromAtomXml(XmlNode atomNode, XmlNamespaceManager namespaceManager)
+        public override Entry CreateFromAtomXml(XmlNode atomNode, XmlNamespaceManager namespaceManager)
         {
             Entry newEntry = new Entry();
 
-            newEntry.AtomId = atomNode.GetNodeValueAsString("/atom:entry/atom:id", namespaceManager, "");
-            newEntry.DatePublished = atomNode.GetNodeValueAsDateTime("/atom:entry/atom:published", namespaceManager, null);
-            newEntry.DateUpdated = atomNode.GetNodeValueAsDateTime("/atom:entry/atom:updated", namespaceManager, DateTime.Now);
-            newEntry.IsDraft = atomNode.GetNodeValueAsBoolean("/atom:entry/atom:id", namespaceManager, false);
-            newEntry.Rights = atomNode.GetNodeValueAsString("/atom:entry/atom:rights", namespaceManager, "");
-            newEntry.Summary = atomNode.GetNodeValueAsString("/atom:entry/atom:summary", namespaceManager, "");
-            newEntry.Title = atomNode.GetNodeValueAsString("/atom:entry/atom:title", namespaceManager, "");
+            newEntry.AtomId = atomNode.GetNodeValueAsString("atom:id", namespaceManager, "");
+            newEntry.DatePublished = atomNode.GetNodeValueAsDateTime("atom:published", namespaceManager, null);
+            newEntry.DateUpdated = atomNode.GetNodeValueAsDateTime("atom:updated", namespaceManager, DateTime.Now);
+            newEntry.IsDraft = atomNode.GetNodeValueAsBoolean("atom:id", namespaceManager, false);
+            newEntry.Rights = atomNode.GetNodeValueAsString("atom:rights", namespaceManager, "");
+            newEntry.Summary = atomNode.GetNodeValueAsString("atom:summary", namespaceManager, "");
+            newEntry.Title = atomNode.GetNodeValueAsString("atom:title", namespaceManager, "");
 
-            newEntry.Links = UtilityAtomEntity.GetCollection<Link>("/atom:entry/atom:link", atomNode, namespaceManager, _linkFactory);
-            newEntry.Authors = UtilityAtomEntity.GetCollection<Person>("/atom:entry/atom:author", atomNode, namespaceManager, _authorFactory);
-            newEntry.Categories = UtilityAtomEntity.GetCollection<Category>("/atom:entry/atom:category", atomNode, namespaceManager, _categoryFactory);
-            newEntry.Contributors = UtilityAtomEntity.GetCollection<Person>("/atom:entry/atom:contributor", atomNode, namespaceManager, _contributorFactory);
+            newEntry.Links = UtilityAtomEntity.GetCollection<Link>("atom:link", atomNode, namespaceManager, _linkFactory);
+            newEntry.Authors = UtilityAtomEntity.GetCollection<Person>("atom:author", atomNode, namespaceManager, _authorFactory);
+            newEntry.Categories = UtilityAtomEntity.GetCollection<Category>("atom:category", atomNode, namespaceManager, _categoryFactory);
+            newEntry.Contributors = UtilityAtomEntity.GetCollection<Person>("atom:contributor", atomNode, namespaceManager, _contributorFactory);
 
-            newEntry.Content = UtilityAtomEntity.GetEntity<Content>("/atom:entry/atom:content", atomNode, namespaceManager, _contentFactory);
-            newEntry.Source = UtilityAtomEntity.GetEntity<Entry>("/atom:entry/atom:source", atomNode, namespaceManager, this);
+            newEntry.Content = UtilityAtomEntity.GetEntity<Content>("atom:content", atomNode, namespaceManager, _contentFactory);
+            newEntry.Source = UtilityAtomEntity.GetEntity<Entry>("atom:source", atomNode, namespaceManager, this);
 
             return newEntry;
         }

@@ -3,26 +3,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using CitizenJournalismNetworkServer.Models;
+using System.Xml;
+using CitizenJournalismNetworkServer.Extensions.Xml;
+using CitizenJournalismNetworkServer.Utility;
 
 namespace CitizenJournalismNetworkServer.Factories.Atom
 {
-    public class AtomContentFactory : IAtomFactory<Content>
+    public class AtomContentFactory : AtomFactory<Content>
     {
         #region IAtomFactory<Content> Members
 
-        public Content CreateFromAtomXml(string atomXml)
+        public override Content CreateFromAtomXml(XmlNode atomNode, XmlNamespaceManager nsManager)
         {
-            throw new NotImplementedException();
-        }
+            Content result = new Content();
 
-        public Content CreateFromAtomXml(System.Xml.XmlDocument atomDocument)
-        {
-            throw new NotImplementedException();
-        }
+            result.ContentType = atomNode.GetNodeValueAsString("@type", nsManager, "");
+            result.SourceUri = atomNode.GetNodeValueAsString("@src", nsManager, "");
+            result.Text = atomNode.GetNodeValueAsString(".", nsManager, "");
 
-        public Content CreateFromAtomXml(System.Xml.XmlNode atomDocument, System.Xml.XmlNamespaceManager nsManager)
-        {
-            throw new NotImplementedException();
+            return result;
         }
 
         #endregion

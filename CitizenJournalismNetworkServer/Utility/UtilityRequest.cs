@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.IO;
+using System.Text;
 
 namespace CitizenJournalismNetworkServer.Utility
 {
@@ -13,8 +15,11 @@ namespace CitizenJournalismNetworkServer.Utility
 
         public static string GetContent(HttpRequestBase request)
         {
-            //+++ TODO: Implement.
-            throw new NotImplementedException("The Whistle Goes 'WOOOOOOOOOOOOOOOOOOOOOOO'!");
+            StreamReader reader = new StreamReader(request.InputStream);
+
+            string result = reader.ReadToEnd();
+
+            return result;
         }
 
     }

@@ -3,26 +3,29 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using CitizenJournalismNetworkServer.Models;
+using System.Xml;
+using CitizenJournalismNetworkServer.Extensions.Xml;
+using CitizenJournalismNetworkServer.Utility;
 
 namespace CitizenJournalismNetworkServer.Factories.Atom
 {
-    public class AtomLinkFactory : IAtomFactory<Link>
+    public class AtomLinkFactory : AtomFactory<Link>
     {
         #region IAtomFactory<Link> Members
 
-        public Link CreateFromAtomXml(string atomXml)
+        
+        public override Link CreateFromAtomXml(XmlNode atomNode, XmlNamespaceManager nsManager)
         {
-            throw new NotImplementedException();
-        }
+            Link result = new Link();
 
-        public Link CreateFromAtomXml(System.Xml.XmlDocument atomDocument)
-        {
-            throw new NotImplementedException();
-        }
+            result.Href = atomNode.GetNodeValueAsString("@atom:href", nsManager, "");
+            result.Language = atomNode.GetNodeValueAsString("@atom:hreflang", nsManager, "");
+            result.Length = atomNode.GetNodeValueAsLong("@atom:length", nsManager, 0);
+            result.RelationshipLiteral = atomNode.GetNodeValueAsString("@atom:rel", nsManager, "");
+            result.Title = atomNode.GetNodeValueAsString("@atom:title", nsManager, "");
+            result.Type = atomNode.GetNodeValueAsString("@atom:type", nsManager, "");
 
-        public Link CreateFromAtomXml(System.Xml.XmlNode atomDocument, System.Xml.XmlNamespaceManager nsManager)
-        {
-            throw new NotImplementedException();
+            return result;
         }
 
         #endregion

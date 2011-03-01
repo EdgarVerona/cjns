@@ -1,0 +1,61 @@
+
+* Unit tests
+	Extensions.Xml
+		XmlNodeExtensions
+			GetNodeValueAsString_NodeNotFound_Default
+			GetNodeValueAsString_NodeFound_Success
+			GetNodeValueAsLong_NodeNotFound_Default
+			GetNodeValueAsLong_NodeNotFound_NullDefault
+			GetNodeValueAsLong_InvalidData_Default
+			GetNodeValueAsLong_InvalidData_NullDefault
+			GetNodeValueAsLong_ValidData_Success
+			GetNodeValueAsDateTime_NodeNotFound_NullDefault
+			GetNodeValueAsDateTime_NodeNotFound_Default
+			GetNodeValueAsDateTime_InvalidData_NullDefault
+			GetNodeValueAsDateTime_InvalidData_Default
+			GetNodeValueAsDateTime_ValidDataGeneric_Success
+			GetNodeValueAsDateTime_ValidDataTimeZone_Success
+			GetNodeValueAsBoolean_NodeNotFound_Default
+			GetNodeValueAsBoolean_InvalidData_Default
+			GetNodeValueAsBoolean_ValidDataTrue_Success
+			GetNodeValueAsBoolean_ValidDataFalse_Success
+	Factories.Atom
+		AtomCategoryFactory
+		AtomContentFactory
+		AtomEntryFactory
+		AtomLinkFactory
+		AtomPersonFactory
+	Factories
+		FeedFactory
+		GeneratorFactory
+	Helpers
+		AtomDateHelper
+		JsonHelper
+		OptionalRenderingHelper
+	ModelBinders
+		AtomEntryModelBinder
+		AtomMediaContentModelBinder
+	Utility
+		UtilityAtomEntity
+		UtilityContentType
+		UtilityRelationship
+		UtilityRequest
+
+* Unit tests to reapproach later (still in high amount of flux)
+	Controllers
+		AccountController
+		CategoryController
+		CollectionController
+		ContentTypeController
+		EntryController
+		HomeController
+		LinkController
+		PersonController
+		ServiceController
+		WorkspaceController
+		
+* Unit tests that aren't needed (too obvious to bother with)
+	Engine
+		MultiOutputViewEngine
+			FindPartialView
+			FindView

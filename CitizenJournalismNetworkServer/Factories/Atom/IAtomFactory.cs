@@ -8,10 +8,10 @@ namespace CitizenJournalismNetworkServer.Factories.Atom
 {
     public interface IAtomFactory<T>
     {
-        T CreateFromAtomXml(string atomXml);
+        T CreateFromAtomXml(string atomXml, string xPath);
 
-        T CreateFromAtomXml(XmlDocument atomDocument);
+        T CreateFromAtomXml(XmlDocument atomDocument, string xPath);
 
-        T CreateFromAtomXml(XmlNode atomDocument, XmlNamespaceManager nsManager);
+        T CreateFromAtomXml(XmlNode atomNode, XmlNamespaceManager nsManager);
     }
 }
