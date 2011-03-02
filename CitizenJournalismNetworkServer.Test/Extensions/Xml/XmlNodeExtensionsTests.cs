@@ -52,7 +52,7 @@ namespace CitizenJournalismNetworkServer.Test.Extensions.Xml
 
             doc.LoadXml(xml.ToString());
 
-            _node = doc;
+            _node = doc.DocumentElement;
         }
 
         public const string DefaultValueString = "DEFAULT_VALUE";
@@ -76,7 +76,7 @@ namespace CitizenJournalismNetworkServer.Test.Extensions.Xml
         [Test]
         public void GetNodeValueAsString_NodeNotFound_Default()
         {
-            string result = _node.GetNodeValueAsString("TestData/sdstr:SubDataString/sdstr:NonExistant", _ns, DefaultValueString);
+            string result = _node.GetNodeValueAsString("/TestData/sdstr:SubDataString/sdstr:NonExistant", _ns, DefaultValueString);
 
             Assert.AreEqual(DefaultValueString, result);
         }
@@ -84,7 +84,7 @@ namespace CitizenJournalismNetworkServer.Test.Extensions.Xml
         [Test]
         public void GetNodeValueAsString_NodeFound_Success()
         {
-            string result = _node.GetNodeValueAsString("TestData/sdstr:SubDataString/sdstr:StringValue", _ns, DefaultValueString);
+            string result = _node.GetNodeValueAsString("/TestData/sdstr:SubDataString/sdstr:StringValue", _ns, DefaultValueString);
 
             Assert.AreEqual(StringValue, result);
         }
@@ -92,7 +92,7 @@ namespace CitizenJournalismNetworkServer.Test.Extensions.Xml
         [Test]
         public void GetNodeValueAsLong_NodeNotFound_Default()
         {
-            long? result = _node.GetNodeValueAsLong("TestData/sdstr:SubDataString/sdlng:InvalidNode", _ns, DefaultValueLong);
+            long? result = _node.GetNodeValueAsLong("/TestData/sdstr:SubDataString/sdlng:InvalidNode", _ns, DefaultValueLong);
 
             Assert.AreEqual(DefaultValueLong, result);
         }
@@ -100,7 +100,7 @@ namespace CitizenJournalismNetworkServer.Test.Extensions.Xml
         [Test]
         public void GetNodeValueAsLong_NodeNotFound_NullDefault()
         {
-            long? result = _node.GetNodeValueAsLong("TestData/sdlng:SubDataLong/sdlng:InvalidNode", _ns, null);
+            long? result = _node.GetNodeValueAsLong("/TestData/sdlng:SubDataLong/sdlng:InvalidNode", _ns, null);
 
             Assert.IsNull(result);
         }
@@ -108,7 +108,7 @@ namespace CitizenJournalismNetworkServer.Test.Extensions.Xml
         [Test]
         public void GetNodeValueAsLong_InvalidData_Default()
         {
-            long? result = _node.GetNodeValueAsLong("TestData/sdlng:SubDataLong/sdlng:LongInvalid", _ns, DefaultValueLong);
+            long? result = _node.GetNodeValueAsLong("/TestData/sdlng:SubDataLong/sdlng:LongInvalid", _ns, DefaultValueLong);
 
             Assert.AreEqual(DefaultValueLong, result);
         }
@@ -116,7 +116,7 @@ namespace CitizenJournalismNetworkServer.Test.Extensions.Xml
         [Test]
         public void GetNodeValueAsLong_InvalidData_NullDefault()
         {
-            long? result = _node.GetNodeValueAsLong("TestData/sdlng:SubDataLong/sdlng:LongInvalid", _ns, null);
+            long? result = _node.GetNodeValueAsLong("/TestData/sdlng:SubDataLong/sdlng:LongInvalid", _ns, null);
 
             Assert.IsNull(result);
         }
@@ -124,7 +124,7 @@ namespace CitizenJournalismNetworkServer.Test.Extensions.Xml
         [Test]
         public void GetNodeValueAsLong_ValidData_Success()
         {
-            long? result = _node.GetNodeValueAsLong("TestData/sdlng:SubDataLong/sdlng:LongValue", _ns, LongValue);
+            long? result = _node.GetNodeValueAsLong("/TestData/sdlng:SubDataLong/sdlng:LongValue", _ns, LongValue);
 
             Assert.AreEqual(LongValue, result);
         }
@@ -132,7 +132,7 @@ namespace CitizenJournalismNetworkServer.Test.Extensions.Xml
         [Test]
         public void GetNodeValueAsDateTime_NodeNotFound_NullDefault()
         {
-            DateTime? result = _node.GetNodeValueAsDateTime("TestData/sdlng:SubDataLong/sdlng:NodeNonexistant", _ns, null);
+            DateTime? result = _node.GetNodeValueAsDateTime("/TestData/sdlng:SubDataLong/sdlng:NodeNonexistant", _ns, null);
 
             Assert.IsNull(result);
         }
@@ -140,7 +140,7 @@ namespace CitizenJournalismNetworkServer.Test.Extensions.Xml
         [Test]
         public void GetNodeValueAsDateTime_NodeNotFound_Default()
         {
-            DateTime? result = _node.GetNodeValueAsDateTime("TestData/sdlng:SubDataLong/sdlng:NodeNonexistant", _ns, DefaultDateTime);
+            DateTime? result = _node.GetNodeValueAsDateTime("/TestData/sdlng:SubDataLong/sdlng:NodeNonexistant", _ns, DefaultDateTime);
 
             Assert.AreEqual(DefaultDateTime, result);
         }
@@ -148,7 +148,7 @@ namespace CitizenJournalismNetworkServer.Test.Extensions.Xml
         [Test]
         public void GetNodeValueAsDateTime_InvalidData_NullDefault()
         {
-            DateTime? result = _node.GetNodeValueAsDateTime("TestData/sddt:SubDataDateTime/sddt:DateTimeInvalid", _ns, null);
+            DateTime? result = _node.GetNodeValueAsDateTime("/TestData/sddt:SubDataDateTime/sddt:DateTimeInvalid", _ns, null);
 
             Assert.IsNull(result);
         }
@@ -156,7 +156,7 @@ namespace CitizenJournalismNetworkServer.Test.Extensions.Xml
         [Test]
         public void GetNodeValueAsDateTime_InvalidData_Default()
         {
-            DateTime? result = _node.GetNodeValueAsDateTime("TestData/sddt:SubDataDateTime/sddt:DateTimeInvalid", _ns, DefaultDateTime);
+            DateTime? result = _node.GetNodeValueAsDateTime("/TestData/sddt:SubDataDateTime/sddt:DateTimeInvalid", _ns, DefaultDateTime);
 
             Assert.AreEqual(DefaultDateTime, result);
         }
@@ -164,7 +164,7 @@ namespace CitizenJournalismNetworkServer.Test.Extensions.Xml
         [Test]
         public void GetNodeValueAsDateTime_ValidDataGeneric_Success()
         {
-            DateTime? result = _node.GetNodeValueAsDateTime("TestData/sddt:SubDataDateTime/sddt:DateTimeValue", _ns, DefaultDateTime);
+            DateTime? result = _node.GetNodeValueAsDateTime("/TestData/sddt:SubDataDateTime/sddt:DateTimeValue", _ns, DefaultDateTime);
 
             Assert.AreEqual(DateTimeValueAsDateTime, result);
         }
@@ -172,7 +172,7 @@ namespace CitizenJournalismNetworkServer.Test.Extensions.Xml
         [Test]
         public void GetNodeValueAsDateTime_ValidDataTimeZone_Success()
         {
-            DateTime? result = _node.GetNodeValueAsDateTime("TestData/sddt:SubDataDateTime/sddt:DateTimeWithTimeZone", _ns, DefaultDateTime);
+            DateTime? result = _node.GetNodeValueAsDateTime("/TestData/sddt:SubDataDateTime/sddt:DateTimeWithTimeZone", _ns, DefaultDateTime);
 
             Assert.AreEqual(DateTimeWithTimeZoneAsDateTime, result);
         }
@@ -180,7 +180,7 @@ namespace CitizenJournalismNetworkServer.Test.Extensions.Xml
         [Test]
         public void GetNodeValueAsBoolean_NodeNotFound_Default()
         {
-            bool result = _node.GetNodeValueAsBoolean("TestData/SubDataBoolean/NonexistantNode", _ns, false);
+            bool result = _node.GetNodeValueAsBoolean("/TestData/SubDataBoolean/NonexistantNode", _ns, false);
 
             Assert.AreEqual(false, result);
         }
@@ -188,7 +188,7 @@ namespace CitizenJournalismNetworkServer.Test.Extensions.Xml
         [Test]
         public void GetNodeValueAsBoolean_InvalidData_Default()
         {
-            bool result = _node.GetNodeValueAsBoolean("TestData/SubDataBoolean/BooleanInvalid", _ns, false);
+            bool result = _node.GetNodeValueAsBoolean("/TestData/SubDataBoolean/BooleanInvalid", _ns, false);
 
             Assert.AreEqual(false, result);
         }
@@ -196,7 +196,7 @@ namespace CitizenJournalismNetworkServer.Test.Extensions.Xml
         [Test]
         public void GetNodeValueAsBoolean_ValidDataTrue_Success()
         {
-            bool result = _node.GetNodeValueAsBoolean("TestData/SubDataBoolean/BooleanValueTrue", _ns, false);
+            bool result = _node.GetNodeValueAsBoolean("/TestData/SubDataBoolean/BooleanValueTrue", _ns, false);
 
             Assert.AreEqual(true, result);
         }
@@ -204,7 +204,7 @@ namespace CitizenJournalismNetworkServer.Test.Extensions.Xml
         [Test]
         public void GetNodeValueAsBoolean_ValidDataFalse_Success()
         {
-            bool result = _node.GetNodeValueAsBoolean("TestData/SubDataBoolean/BooleanValueFalse", _ns, true);
+            bool result = _node.GetNodeValueAsBoolean("/TestData/SubDataBoolean/BooleanValueFalse", _ns, true);
 
             Assert.AreEqual(false, result);
         }

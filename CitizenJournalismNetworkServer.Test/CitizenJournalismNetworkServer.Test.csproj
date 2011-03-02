@@ -52,7 +52,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Constants\TestConstants.cs" />
     <Compile Include="Extensions\Xml\XmlNodeExtensionsTests.cs" />
+    <Compile Include="Factories\Atom\AtomCategoryFactoryTests.cs" />
+    <Compile Include="Factories\Atom\AtomContentFactoryTests.cs" />
+    <Compile Include="Factories\Atom\AtomEntryFactoryTests.cs" />
+    <Compile Include="Helpers\UtilityTestXml.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -65,7 +70,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Collections\" />
+    <Folder Include="Mocks\Factories\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

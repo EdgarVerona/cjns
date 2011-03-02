@@ -34,7 +34,7 @@ namespace CitizenJournalismNetworkServer.Extensions.Xml
 
             if (node is XmlElement)
             {
-                return node.InnerText;
+                return node.InnerXml;
             }
             else
             {

@@ -1,5 +1,5 @@
 
-* Unit tests
+* Completed
 	Extensions.Xml
 		XmlNodeExtensions
 			GetNodeValueAsString_NodeNotFound_Default
@@ -21,10 +21,40 @@
 			GetNodeValueAsBoolean_ValidDataFalse_Success
 	Factories.Atom
 		AtomCategoryFactory
+			CreateFromAtomXml_UnrecognizedFormat_Null
+			X CreateFromAtomXml_InvalidData_Null (Doesn't make sense, all string, no conversion)
+			CreateFromAtomXml_AllData_Success
+			CreateFromAtomXml_PartialData_Success
 		AtomContentFactory
+			CreateFromAtomXml_UnrecognizedFormat_Null
+			CreateFromAtomXml_InvalidData_Null
+			CreateFromAtomXml_InlineHtml_Success
+			CreateFromAtomXml_InlineOther_Success
+			CreateFromAtomXml_OutOfLine_Success
+
+* Unit tests
+	Extensions.Xml
+		XmlNodeExtensions
+			GetNodeValueAsString_Attribute_Success
+			GetNodeValueAsLong_Attribute_Success
+			GetNodeValueAsDateTime_Attribute_Success
+			GetNodeValueAsBoolean_Attribute_Success
+	Factories.Atom
 		AtomEntryFactory
+			CreateFromAtomXml_UnrecognizedFormat_Null
+			CreateFromAtomXml_InvalidData_Null
+			CreateFromAtomXml_AllData_Success
+			CreateFromAtomXml_PartialData_Success
 		AtomLinkFactory
+			CreateFromAtomXml_UnrecognizedFormat_Null
+			CreateFromAtomXml_InvalidData_Null
+			CreateFromAtomXml_AllData_Success
+			CreateFromAtomXml_PartialData_Success
 		AtomPersonFactory
+			CreateFromAtomXml_UnrecognizedFormat_Null
+			CreateFromAtomXml_InvalidData_Null
+			CreateFromAtomXml_AllData_Success
+			CreateFromAtomXml_PartialData_Success
 	Factories
 		FeedFactory
 		GeneratorFactory

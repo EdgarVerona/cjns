@@ -22,12 +22,11 @@ namespace CitizenJournalismNetworkServer.Factories.Atom
         {
 
             XmlNamespaceManager nsManager = new XmlNamespaceManager(atomDocument.NameTable);
-            nsManager.AddNamespace("sdstr", "http://www.test.org/sdstr");
-            nsManager.AddNamespace("sdlng", "http://www.test.org/sdlng");
-            nsManager.AddNamespace("sddt", "http://www.test.org/sddt");
-
+            nsManager.AddNamespace("atom", "http://www.w3.org/2005/Atom");
+            nsManager.AddNamespace("app", "http://www.w3.org/2007/app");
+            
             // Attempt to obtain the node for the creation of this Entity.
-            XmlNode nodeEntity = atomDocument.SelectSingleNode(xPath);
+            XmlNode nodeEntity = atomDocument.DocumentElement.SelectSingleNode(xPath);
 
             return CreateFromAtomXml(nodeEntity, nsManager);
         }
