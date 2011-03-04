@@ -18,12 +18,12 @@ namespace CitizenJournalismNetworkServer.Factories.Atom
         {
             Link result = new Link();
 
-            result.Href = atomNode.GetNodeValueAsString("@atom:href", nsManager, "");
-            result.Language = atomNode.GetNodeValueAsString("@atom:hreflang", nsManager, "");
-            result.Length = atomNode.GetNodeValueAsLong("@atom:length", nsManager, 0);
-            result.RelationshipLiteral = atomNode.GetNodeValueAsString("@atom:rel", nsManager, "");
-            result.Title = atomNode.GetNodeValueAsString("@atom:title", nsManager, "");
-            result.Type = atomNode.GetNodeValueAsString("@atom:type", nsManager, "");
+            result.Href = atomNode.GetNodeValueAsString("@href", nsManager, "");
+            result.Language = atomNode.GetNodeValueAsString("@hreflang", nsManager, "");
+            result.Length = atomNode.GetNodeValueAsLong("@length", nsManager, null);
+            result.RelationshipLiteral = atomNode.GetNodeValueAsString("@rel", nsManager, "");
+            result.Title = atomNode.GetNodeValueAsString("@title", nsManager, "");
+            result.Type = atomNode.GetNodeValueAsString("@type", nsManager, "");
 
             return result;
         }

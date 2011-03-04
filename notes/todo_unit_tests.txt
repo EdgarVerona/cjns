@@ -19,6 +19,10 @@
 			GetNodeValueAsBoolean_InvalidData_Default
 			GetNodeValueAsBoolean_ValidDataTrue_Success
 			GetNodeValueAsBoolean_ValidDataFalse_Success
+			GetNodeValueAsString_Attribute_Success
+			GetNodeValueAsLong_Attribute_Success
+			GetNodeValueAsDateTime_Attribute_Success
+			GetNodeValueAsBoolean_Attribute_Success
 	Factories.Atom
 		AtomCategoryFactory
 			CreateFromAtomXml_UnrecognizedFormat_Null
@@ -31,32 +35,29 @@
 			CreateFromAtomXml_InlineHtml_Success
 			CreateFromAtomXml_InlineOther_Success
 			CreateFromAtomXml_OutOfLine_Success
-
-* Unit tests
-	Extensions.Xml
-		XmlNodeExtensions
-			GetNodeValueAsString_Attribute_Success
-			GetNodeValueAsLong_Attribute_Success
-			GetNodeValueAsDateTime_Attribute_Success
-			GetNodeValueAsBoolean_Attribute_Success
-	Factories.Atom
 		AtomEntryFactory
 			CreateFromAtomXml_UnrecognizedFormat_Null
 			CreateFromAtomXml_InvalidData_Null
 			CreateFromAtomXml_AllData_Success
 			CreateFromAtomXml_PartialData_Success
 		AtomLinkFactory
-			CreateFromAtomXml_UnrecognizedFormat_Null
-			CreateFromAtomXml_InvalidData_Null
+			CreateFromAtomXml_UnrecognizedFormat_Empty
+			CreateFromAtomXml_InvalidData_Success
 			CreateFromAtomXml_AllData_Success
 			CreateFromAtomXml_PartialData_Success
 		AtomPersonFactory
-			CreateFromAtomXml_UnrecognizedFormat_Null
-			CreateFromAtomXml_InvalidData_Null
+			CreateFromAtomXml_UnrecognizedFormat_Empty
+			CreateFromAtomXml_InvalidData_Success
 			CreateFromAtomXml_AllData_Success
 			CreateFromAtomXml_PartialData_Success
+
+* Unit tests
 	Factories
 		FeedFactory
+			CreateByCollectionId_NotFound_Null
+			CreateByCollectionId_SingleEntry_Success
+			CreateByCollectionId_MultipleEntry_Success
+			CreateByCollectionId_NoEntries_Success
 		GeneratorFactory
 	Helpers
 		AtomDateHelper

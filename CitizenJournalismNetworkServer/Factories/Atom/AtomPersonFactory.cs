@@ -19,9 +19,9 @@ namespace CitizenJournalismNetworkServer.Factories.Atom
         {
             Person result = new Person();
 
-            result.Email = atomNode.GetNodeValueAsString("./email", nsManager, "");
-            result.Name = atomNode.GetNodeValueAsString("./name", nsManager, "");
-            result.Uri = atomNode.GetNodeValueAsString("./uri", nsManager, "");
+            result.Email = atomNode.GetNodeValueAsString("atom:email", nsManager, "");
+            result.Name = atomNode.GetNodeValueAsString("atom:name", nsManager, "");
+            result.Uri = atomNode.GetNodeValueAsString("atom:uri", nsManager, "");
 
             return result;
         }

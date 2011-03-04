@@ -209,5 +209,37 @@ namespace CitizenJournalismNetworkServer.Test.Extensions.Xml
             Assert.AreEqual(false, result);
         }
 
+        [Test]
+        public void GetNodeValueAsString_Attribute_Success()
+        {
+            string result = _node.GetNodeValueAsString("/TestData/sdstr:SubDataString/sdstr:StringAttribute/@attribute-value", _ns, DefaultValueString);
+
+            Assert.AreEqual(StringAttribute, result);
+        }
+
+		[Test]
+        public void GetNodeValueAsLong_Attribute_Success()
+        {
+            long? result = _node.GetNodeValueAsLong("/TestData/sdlng:SubDataLong/sdlng:LongAttribute/@attribute-value", _ns, DefaultValueLong);
+
+            Assert.AreEqual(LongAttribute, result);
+        }
+
+		[Test]
+        public void GetNodeValueAsDateTime_Attribute_Success()
+        {
+            DateTime? result = _node.GetNodeValueAsDateTime("/TestData/sddt:SubDataDateTime/sddt:DateTimeAttribute/@attribute-value", _ns, DefaultDateTime);
+
+            Assert.AreEqual(DateTimeAttributeAsDateTime, result);
+        }
+
+		[Test]
+        public void GetNodeValueAsBoolean_Attribute_Success()
+        {
+            bool result = _node.GetNodeValueAsBoolean("/TestData/SubDataBoolean/BooleanAttribute/@attribute-value", _ns, false);
+
+            Assert.AreEqual(true, result);
+        }
+
     }
 }

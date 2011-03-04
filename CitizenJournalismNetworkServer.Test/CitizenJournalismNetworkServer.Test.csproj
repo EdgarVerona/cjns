@@ -57,6 +57,9 @@
     <Compile Include="Factories\Atom\AtomCategoryFactoryTests.cs" />
     <Compile Include="Factories\Atom\AtomContentFactoryTests.cs" />
     <Compile Include="Factories\Atom\AtomEntryFactoryTests.cs" />
+    <Compile Include="Factories\Atom\AtomLinkFactoryTests.cs" />
+    <Compile Include="Factories\Atom\AtomPersonFactoryTests.cs" />
+    <Compile Include="Factories\FeedFactoryTests.cs" />
     <Compile Include="Helpers\UtilityTestXml.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

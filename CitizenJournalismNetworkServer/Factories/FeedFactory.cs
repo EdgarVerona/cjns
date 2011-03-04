@@ -32,7 +32,7 @@ namespace CitizenJournalismNetworkServer.Factories
 
             if (collection == null)
             {
-                return new Feed();
+                return null;
             }
 
             ICollection<Entry> entries = (from entry in _entryRepository.GetAllEntries()
