@@ -7,9 +7,9 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using System.Web.Security;
-using CitizenJournalismNetworkServer.Models;
+using CitizenJournalismNetworkServer.Domain.Models;
 
-namespace CitizenJournalismNetworkServer.Controllers
+namespace CitizenJournalismNetworkServer.Web.Controllers
 {
     public class AccountController : Controller
     {

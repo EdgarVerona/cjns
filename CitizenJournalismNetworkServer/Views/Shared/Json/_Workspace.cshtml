@@ -1,8 +1,8 @@
-﻿@using CitizenJournalismNetworkServer.Models
-@using CitizenJournalismNetworkServer.Helpers
+﻿@using CitizenJournalismNetworkServer.Domain.Models
+@using CitizenJournalismNetworkServer.Web.Helpers
 @model Workspace
 
 {
     "title": "@Model.Title",
-    "collections": @(JsonHelper.RenderJsonCollection<Collection>("_appCollection", Model.Collections, this))
+    "collections": @(JsonHelper.RenderJsonCollection<Collection>("_appCollection", Model.Collections, this.Html))
 }

@@ -1,18 +1,18 @@
-﻿@using CitizenJournalismNetworkServer.Models
-@using CitizenJournalismNetworkServer.Helpers
+﻿@using CitizenJournalismNetworkServer.Domain.Models
+@using CitizenJournalismNetworkServer.Web.Helpers
 @model Feed
 {
     "title": "@Model.Title",
-    "authors": @(JsonHelper.RenderJsonCollection<Person>("_Author", Model.Authors, this)),
-    "categories": @(JsonHelper.RenderJsonCollection<Category>("_Category", Model.Categories, this)),
-    "contributors": @(JsonHelper.RenderJsonCollection<Person>("_Contributor", Model.Contributors, this)),
+    "authors": @(JsonHelper.RenderJsonCollection<Person>("_Author", Model.Authors, this.Html)),
+    "categories": @(JsonHelper.RenderJsonCollection<Category>("_Category", Model.Categories, this.Html)),
+    "contributors": @(JsonHelper.RenderJsonCollection<Person>("_Contributor", Model.Contributors, this.Html)),
     "generator": @Html.Partial("_Generator", Model.Generator),
     "icon": "@Model.IconUri",
     "id": "@Model.AtomId",
-    "links": @(JsonHelper.RenderJsonCollection<Link>("_Link", Model.Links, this)),
+    "links": @(JsonHelper.RenderJsonCollection<Link>("_Link", Model.Links, this.Html)),
     "logo": "@Model.LogoUri",
     "rights": "@Model.Rights",
     "subtitle": "@Model.Subtitle",
     "updated": "@Model.DateUpdated.ToString()",
-    "entries": @(JsonHelper.RenderJsonCollection<Entry>("_Entry", Model.Entries, this))
+    "entries": @(JsonHelper.RenderJsonCollection<Entry>("_Entry", Model.Entries, this.Html))
 }

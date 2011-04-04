@@ -3,7 +3,25 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CitizenJournalismNetworkServer", "CitizenJournalismNetworkServer\CitizenJournalismNetworkServer.csproj", "{2B39067A-850A-480F-B584-924362330775}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CitizenJournalismNetworkServer.Test", "CitizenJournalismNetworkServer.Test\CitizenJournalismNetworkServer.Test.csproj", "{A008801E-EE31-4870-9398-BE1D77507183}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CitizenJournalismNetworkServer.AcceptanceTest", "CitizenJournalismNetworkServer.AcceptanceTest\CitizenJournalismNetworkServer.AcceptanceTest.csproj", "{DAB4E68D-3756-4C61-BD9C-63B93A907262}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CitizenJournalismNetworkServer.Domain", "CitizenJournalismNetworkServer.Domain\CitizenJournalismNetworkServer.Domain.csproj", "{A14FA6AC-0DB3-4439-A7A6-5934846CE73A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Tests", "_Tests", "{573A3400-B0AF-42DB-85C3-D7C6DD503315}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Applications", "_Applications", "{50645249-D01A-426C-B9C4-D060CBB85F7C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{F5BCC738-5AC3-4E4F-B742-8DEC99BA0A69}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CitizenJournalismNetworkServer.Web", "CitizenJournalismNetworkServer.Web\CitizenJournalismNetworkServer.Web.csproj", "{37A99701-2AAF-45C3-B74D-E5A5D60E625E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CitizenJournalismNetworkServer.Kernel", "CitizenJournalismNetworkServer.Kernel\CitizenJournalismNetworkServer.Kernel.csproj", "{4FF06645-2ABE-4476-A152-25E7BA00AD4F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CitizenJournalismNetworkServer.Domain.Tests", "CitizenJournalismNetworkServer.Domain.Tests\CitizenJournalismNetworkServer.Domain.Tests.csproj", "{16DD4F0C-52C0-4204-9F7C-CDCBA314D841}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CitizenJournalismNetworkServer.Web.Tests", "CitizenJournalismNetworkServer.Web.Tests\CitizenJournalismNetworkServer.Web.Tests.csproj", "{B7B61A00-2A79-4170-886E-C9A2BFE173F2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CitizenJournalismNetworkServer.Kernel.Tests", "CitizenJournalismNetworkServer.Kernel.Tests\CitizenJournalismNetworkServer.Kernel.Tests.csproj", "{0729880B-2BF6-4B8D-B04A-FF9C8D47841A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,12 +33,46 @@ Global
 		{2B39067A-850A-480F-B584-924362330775}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2B39067A-850A-480F-B584-924362330775}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2B39067A-850A-480F-B584-924362330775}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A008801E-EE31-4870-9398-BE1D77507183}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A008801E-EE31-4870-9398-BE1D77507183}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A008801E-EE31-4870-9398-BE1D77507183}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A008801E-EE31-4870-9398-BE1D77507183}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DAB4E68D-3756-4C61-BD9C-63B93A907262}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DAB4E68D-3756-4C61-BD9C-63B93A907262}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DAB4E68D-3756-4C61-BD9C-63B93A907262}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DAB4E68D-3756-4C61-BD9C-63B93A907262}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A14FA6AC-0DB3-4439-A7A6-5934846CE73A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A14FA6AC-0DB3-4439-A7A6-5934846CE73A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A14FA6AC-0DB3-4439-A7A6-5934846CE73A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A14FA6AC-0DB3-4439-A7A6-5934846CE73A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{37A99701-2AAF-45C3-B74D-E5A5D60E625E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{37A99701-2AAF-45C3-B74D-E5A5D60E625E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{37A99701-2AAF-45C3-B74D-E5A5D60E625E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{37A99701-2AAF-45C3-B74D-E5A5D60E625E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4FF06645-2ABE-4476-A152-25E7BA00AD4F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4FF06645-2ABE-4476-A152-25E7BA00AD4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4FF06645-2ABE-4476-A152-25E7BA00AD4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4FF06645-2ABE-4476-A152-25E7BA00AD4F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{16DD4F0C-52C0-4204-9F7C-CDCBA314D841}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{16DD4F0C-52C0-4204-9F7C-CDCBA314D841}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{16DD4F0C-52C0-4204-9F7C-CDCBA314D841}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{16DD4F0C-52C0-4204-9F7C-CDCBA314D841}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B7B61A00-2A79-4170-886E-C9A2BFE173F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B7B61A00-2A79-4170-886E-C9A2BFE173F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B7B61A00-2A79-4170-886E-C9A2BFE173F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B7B61A00-2A79-4170-886E-C9A2BFE173F2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0729880B-2BF6-4B8D-B04A-FF9C8D47841A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0729880B-2BF6-4B8D-B04A-FF9C8D47841A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0729880B-2BF6-4B8D-B04A-FF9C8D47841A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0729880B-2BF6-4B8D-B04A-FF9C8D47841A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{2B39067A-850A-480F-B584-924362330775} = {50645249-D01A-426C-B9C4-D060CBB85F7C}
+		{DAB4E68D-3756-4C61-BD9C-63B93A907262} = {573A3400-B0AF-42DB-85C3-D7C6DD503315}
+		{16DD4F0C-52C0-4204-9F7C-CDCBA314D841} = {573A3400-B0AF-42DB-85C3-D7C6DD503315}
+		{B7B61A00-2A79-4170-886E-C9A2BFE173F2} = {573A3400-B0AF-42DB-85C3-D7C6DD503315}
+		{0729880B-2BF6-4B8D-B04A-FF9C8D47841A} = {573A3400-B0AF-42DB-85C3-D7C6DD503315}
+		{A14FA6AC-0DB3-4439-A7A6-5934846CE73A} = {F5BCC738-5AC3-4E4F-B742-8DEC99BA0A69}
+		{4FF06645-2ABE-4476-A152-25E7BA00AD4F} = {F5BCC738-5AC3-4E4F-B742-8DEC99BA0A69}
+		{37A99701-2AAF-45C3-B74D-E5A5D60E625E} = {F5BCC738-5AC3-4E4F-B742-8DEC99BA0A69}
 	EndGlobalSection
 EndGlobal

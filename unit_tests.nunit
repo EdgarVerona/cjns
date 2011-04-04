@@ -1,0 +1,9 @@
+﻿<NUnitProject>
+  <Settings activeconfig="Debug" />
+  <Config name="Debug" binpathtype="Auto">
+    <assembly path="CitizenJournalismNetworkServer.Domain.Tests\bin\Debug\CitizenJournalismNetworkServer.Domain.Tests.dll" />
+    <assembly path="CitizenJournalismNetworkServer.Kernel.Tests\bin\Debug\CitizenJournalismNetworkServer.Kernel.Tests.dll" />
+    <assembly path="CitizenJournalismNetworkServer.Web.Tests\bin\Debug\CitizenJournalismNetworkServer.Web.Tests.dll" />
+  </Config>
+  <Config name="Release" binpathtype="Auto" />
+</NUnitProject>

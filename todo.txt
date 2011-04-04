@@ -3,10 +3,18 @@
 -- TODO
 --------------------------------
 
-* Prep work for Post/Get Commands
-	- Learn how to map XML to Model
-	- Learn how to map JSON to Model, if needed
-		- Investigate further into nature of POSTing JSON or JSON-like content.
+X Prep work for Post/Get Commands
+	X Learn how to map XML to Model
+	X Learn how to map JSON to Model, if needed
+		X Investigate further into nature of POSTing JSON or JSON-like content.
+
+* Database cleanup
+	- Need to determine how to get greater control of the naming of tables generated with EFCodeFirst.
+	- Determine how to use direct queries against Context, instead of relying on old ADO.NET query model.
+		- Or should I care less about using EFCodeFirst constructs for this?
+		
+* Acceptance Tests
+	- Create tests for transactions below
 	
 * What to expose, Minimum
 	- Service

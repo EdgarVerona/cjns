@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<VisualState xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ShowCheckBoxes="false">
+  <TopNode>[0-1000]C:\Projects\cjns\unit_tests.nunit</TopNode>
+  <SelectedNode>[0-1000]C:\Projects\cjns\unit_tests.nunit</SelectedNode>
+  <ExcludeCategories>false</ExcludeCategories>
+  <Nodes>
+    <Node UniqueName="[0-1000]C:\Projects\cjns\unit_tests.nunit" Expanded="true" />
+    <Node UniqueName="[0-1037]CitizenJournalismNetworkServer" Expanded="true" />
+    <Node UniqueName="[0-1038]CitizenJournalismNetworkServer.Test" Expanded="true" />
+    <Node UniqueName="[0-1039]CitizenJournalismNetworkServer.Test.Factories" Expanded="true" />
+    <Node UniqueName="[0-1040]CitizenJournalismNetworkServer.Test.Factories.Atom" Expanded="true" />
+    <Node UniqueName="[0-1041]CitizenJournalismNetworkServer.Test.Utilities" Expanded="true" />
+    <Node UniqueName="[0-1065]CitizenJournalismNetworkServer" Expanded="true" />
+    <Node UniqueName="[0-1066]CitizenJournalismNetworkServer.Test" Expanded="true" />
+    <Node UniqueName="[0-1067]CitizenJournalismNetworkServer.Test.Extensions" Expanded="true" />
+    <Node UniqueName="[0-1068]CitizenJournalismNetworkServer.Test.Extensions.Xml" Expanded="true" />
+    <Node UniqueName="[0-1042]CitizenJournalismNetworkServer.Test.Extensions.Xml.XmlNodeExtensionsTests" Expanded="true" />
+    <Node UniqueName="[0-1076]CitizenJournalismNetworkServer" Expanded="true" />
+    <Node UniqueName="[0-1077]CitizenJournalismNetworkServer.Test" Expanded="true" />
+    <Node UniqueName="[0-1078]CitizenJournalismNetworkServer.Test.Helpers" Expanded="true" />
+    <Node UniqueName="[0-1069]CitizenJournalismNetworkServer.Test.Helpers.AtomDateHelperTest" Expanded="true" />
+  </Nodes>
+</VisualState>

@@ -4,13 +4,14 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
-using CitizenJournalismNetworkServer.Engine;
+using CitizenJournalismNetworkServer.Web.Engine;
 using Autofac;
 using Autofac.Integration.Mvc;
 using System.Reflection;
-using CitizenJournalismNetworkServer.Controllers;
-using CitizenJournalismNetworkServer.Repositories;
-using CitizenJournalismNetworkServer.Factories;
+using CitizenJournalismNetworkServer.Web.Controllers;
+using CitizenJournalismNetworkServer.Domain.Repositories;
+using CitizenJournalismNetworkServer.Domain.Factories;
+using CitizenJournalismNetworkServer.Web.ModelBinders;
 
 namespace CitizenJournalismNetworkServer
 {
@@ -78,11 +79,15 @@ namespace CitizenJournalismNetworkServer
             //+++ TODO: Need to check that this will actually provide the binding we desire.
             builder.RegisterModelBinderProvider();
             builder.RegisterModelBinders(typeof(MvcApplication).Assembly);
+            builder.RegisterModelBinders(typeof(AtomEntryModelBinder).Assembly);
         }
 
         private static void RegisterControllers(ContainerBuilder builder)
         {
-            builder.RegisterControllers(typeof(MvcApplication).Assembly);
+            //builder.RegisterControllers(typeof(MvcApplication).Assembly);
+            builder.RegisterControllers(typeof(CollectionController).Assembly);
+            //builder.RegisterType<CollectionController>().InstancePerHttpRequest();
+            //builder.RegisterType<CitizenJournalismNetworkServer.Web.Controllers.
         }
 
 

@@ -1,7 +1,8 @@
-﻿@using CitizenJournalismNetworkServer.Utility;
-@using CitizenJournalismNetworkServer.Enumerations;
+﻿@using CitizenJournalismNetworkServer.Web.Utilities;
+@using CitizenJournalismNetworkServer.Domain.Enumerations;
+@using CitizenJournalismNetworkServer.Domain.Constants;
 @{  
-    if (UtilityContentType.GetContentType(ViewContext.Controller.ControllerContext).Equals(ContentTypeConstants.Html))
+    if (UtilityContentTypeWeb.GetContentType(ViewContext.Controller.ControllerContext).Equals(ContentTypeConstants.Html))
     {
         Layout = "~/Views/Shared/_Layout.cshtml";
     }

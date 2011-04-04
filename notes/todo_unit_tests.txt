@@ -50,27 +50,27 @@
 			CreateFromAtomXml_InvalidData_Success
 			CreateFromAtomXml_AllData_Success
 			CreateFromAtomXml_PartialData_Success
-
-* Unit tests
-	Factories
 		FeedFactory
 			CreateByCollectionId_NotFound_Null
 			CreateByCollectionId_SingleEntry_Success
 			CreateByCollectionId_MultipleEntry_Success
 			CreateByCollectionId_NoEntries_Success
-		GeneratorFactory
 	Helpers
 		AtomDateHelper
-		JsonHelper
-		OptionalRenderingHelper
-	ModelBinders
-		AtomEntryModelBinder
-		AtomMediaContentModelBinder
+			RenderDate_Null_Success
+			RenderDate_DateTime_Success
+			RenderDate_Date_Success
+			RenderDate_Time_Success
+		
+* Unit tests
 	Utility
 		UtilityAtomEntity
-		UtilityContentType
-		UtilityRelationship
-		UtilityRequest
+			GetEntity_PathNotFound_Null
+			GetEntity_PathFound_Success
+			GetEntity_CannotGenerate_Exception
+			GetCollection_PathNotFound_Null
+			GetCollection_PathFound_Success
+			GetCollection_CannotGenerate_Exception
 
 * Unit tests to reapproach later (still in high amount of flux)
 	Controllers
@@ -84,9 +84,26 @@
 		PersonController
 		ServiceController
 		WorkspaceController
+	JsonHelper (Depends on HtmlHelper.Partial, which is unfortunately an extension method)
+		RenderJsonCollection_Empty_Success
+		RenderJsonCollection_Null_Success
+		RenderJsonCollection_Single_Success
+		RenderJsonCollection_Multiple_Success
+	ModelBinders (More deeply integrated with ControllerContext and other internals)
+		AtomEntryModelBinder
+		AtomMediaContentModelBinder
+	Utility
+		UtilityContentType (dependency on ControllerContext)
 		
 * Unit tests that aren't needed (too obvious to bother with)
 	Engine
 		MultiOutputViewEngine
 			FindPartialView
 			FindView
+	Factories
+		GeneratorFactory
+	Helpers
+		OptionalRenderingHelper
+	Utilities
+		UtilityRelationship
+		UtilityRequest

@@ -1,10 +1,10 @@
-﻿@using CitizenJournalismNetworkServer.Models
-@using CitizenJournalismNetworkServer.Helpers
+﻿@using CitizenJournalismNetworkServer.Domain.Models
+@using CitizenJournalismNetworkServer.Web.Helpers
 @model Collection
 {
     "href": "@Model.Href",
     "title": "@Model.Title",
     "areCategoriesFixed": "@Model.AreCategoriesFixed",
-    "categories": @(JsonHelper.RenderJsonCollection<Category>("_appCategory", Model.Categories, this)),
-    "contentTypes": @(JsonHelper.RenderJsonCollection<ContentType>("_appAccept", Model.AcceptedTypes, this))
+    "categories": @(JsonHelper.RenderJsonCollection<Category>("_appCategory", Model.Categories, this.Html)),
+    "contentTypes": @(JsonHelper.RenderJsonCollection<ContentType>("_appAccept", Model.AcceptedTypes, this.Html))
 }

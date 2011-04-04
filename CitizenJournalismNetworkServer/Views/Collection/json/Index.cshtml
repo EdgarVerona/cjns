@@ -1,7 +1,7 @@
-@using CitizenJournalismNetworkServer.Helpers
-@using CitizenJournalismNetworkServer.Models
-@model IEnumerable<CitizenJournalismNetworkServer.Models.Collection>
+@using CitizenJournalismNetworkServer.Web.Helpers
+@using CitizenJournalismNetworkServer.Domain.Models
+@model IEnumerable<CitizenJournalismNetworkServer.Domain.Models.Collection>
 {
-	@(JsonHelper.RenderJsonCollection<Collection>("Json/_Collection", Model, this))
+	@(JsonHelper.RenderJsonCollection<Collection>("Json/_Collection", Model, this.Html))
 }
 
