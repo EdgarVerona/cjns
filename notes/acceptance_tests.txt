@@ -1,0 +1,124 @@
+
+* Approaches to Acceptance Testing
+	- What needs to be done
+		- Set database to known state (for each test, or overall?)
+			- For each test would make for less possible confusion later
+		- Call running web service, passing in known input
+		- Examine result for expected output
+	- What needs to be streamlined/made obvious
+		- Setting database state
+		- Creating/modifying/loading expected inputs for use
+		- Creating/modifying/loading expected output tests
+	- Database state setting approaches
+		- Helper class with in-language instantiation
+			- Benefits: can start immediately, no extra infrastructure needed
+			- Drawbacks: will end up creating a LOT of instantiation code like last time, gets messy
+		- Store database state in a file, create mechanism to load it up
+			- DBUnit could be helpful here
+			- In some ways, DBUnit is more of a PITA than just loading and saving the data fluently
+			- Could create nested XML hierarchy for load/save, like toward the end of the SMS project
+				- still ended up being annoying to maintain
+		- 
+	- Expected input loading approaches
+		- Create expected data in code
+		- Load from "input" files (could even just be text files with JSON)
+			- This is a tempting alternative to in-code, if I could keep it well organized
+	- Expected output checking approaches
+		- Create tests in code
+			- Should be able to save "common" validation tests, to save some headache
+			- Would result in explicit code dependencies on data being loaded from files
+				- Perhaps whatever loads the input could also define expected outputs?  Let us deal with the whole problem scope in one file
+		- Integrate a simple scripting language for defining output checks in the same file as inputs?
+		- 
+	
+	- Perhaps we could integrate all three needs into a single file(?)
+		- In theory, would let a QA define state, inputs, and output tests in the same file
+		- Defining that much in a file comes with its own problems: if fundamentals change, we won't get compile-time checks
+			- UNLESS we were to also define a build process validator?  That'd be pretty cool... but perhaps out of scope
+
+
+<Test>
+	<!-- Constants section would let us define drop-in replacements so we didn't have to use the same constant over and over below. -->
+	<!-- Should drop in anywhere with keyphrase "$$NAME" where NAME is the name of the constant element -->
+	<Constants>
+		<!-- Let you include constants from a file -->
+		<Include path="blah-constants.xml" />
+		<NameOfValue>BLAHBLAH</NameOfValue>
+		<OtherValue>BLAHBLAHBLAH</NameOfValue>
+	</Constants>
+	<!-- State declares entities that should pre-exist in the database -->
+	<State>
+		<!-- Can include state from various "common" files -->
+		<Include path="blah.xml" />
+		<!-- Declare entities as elements, with nested values/entities inside -->
+		<!-- Each entity should have a "state-name" if it might be referenced by another object, or by input/output -->
+		<Entity state-name="BlahEntity">
+			<Value>BLAH</Value>
+			<EntityValue>
+				<Entity2 state-name="BlahSubentity">
+					<Value>$$NameOfValue</Value> <!-- Fills value using constant -->
+					...
+				</Entity2>
+			</EntityValue>
+			<!-- Entities can be declared directly (as above) or referenced by their "state-name" (as below) -->
+			<EntityValue reference-state-name="dependent" />
+			<!-- Lists have their element named by the property, and contain 0..M of the entities they're meant to contain -->
+			<ListEntityValue>
+				<Entity3>
+					...
+				</Entity3>
+				<Entity3>
+					...
+				</Entity3>
+			</ListEntityValue>
+		</Entity>
+	</State>
+	<!-- Input element declares the input for this test: the URL to hit, the verb to use, and the data to post (if any) -->
+	<Input executor="WebService" url="/EntitySearch/Blah/BlahBlah" verb="POST">
+		<![CDATA[
+		(JSON or what-not - only needed if there's actual data to be sent for this test)
+		@@BlahEntity/Value <!-- This would be a drop-in replacement for the "Value" property of the entity above with the state-name "BlahEntity" -->
+		$$NameOfValue <!-- This would be a drop-in replacement for one of the "NameOfValue" constant declared above -->
+		]]>
+	</Input>
+	<!-- Output element declares validation tests to be performed -->
+	<Output type="JSON|XML">
+		<!-- Will need to be parsed and pushed through an NUnit Assertion engine -->
+		<!-- Should be able to use XPath/JSONPath interchangably: engine will need to discern what to use -->
+		<Test type="EQUALS" property="SomeXPathToValue" value="42" />
+		<Test type="COUNT" property="SomeXPathToListValue" value="5" />
+		<Test type="NOTEQUAL" property="SomeXPathToValue" value="$$NameOfValue" /> <!-- Uses constant value -->
+		<Test type="EQUALS" property="SomeXPathToValue" value="@@BlahEntity/Value" /> <!-- Uses State Entity value -->
+	</Output>
+</Test>
+
+IDEAS: 
+	- Could I make this generically usable? 
+		- Let people define, say, mapping from concepts above to actual objects, or infer via Reflection, to let it be universally reusable?
+	- User Interface for easy initialization of files by non-technical individuals
+		- Reflection to infer types that could be initialized as "state"
+		- visual interface for declaring state
+		- visual interface for declaring output tests
+			- Perhaps they could put in an example of the type of output expected, and visually select XPaths (neat, but would take a while to implement I think)
+		- Throughout UI, provide visual means to associate values with constants or relative state
+	- Points of Extensibility
+		- Plugin "State handlers"
+			- Accepts... something (assembled objects ready to be persisted, raw contents of XML State entity, or anything in-between)
+			- Responsible for persisting that object to... whatever.
+				- Writing them to Files
+				- Saving to database
+				- Throwing into cache
+				- Etching onto a 3-D object ;)
+		- Plugin "Test types"
+			- Default set for default NUnit Assertion operations, and some that are just useful in general (set comparison operations etc)
+			- Allow for plugins to register custom "types", and then handle them
+				- Accept all of the parameters of the "Test" element, as well as any children if they exist
+				- Would need to throw assertions in the same manner that NUnit does for consistency
+		- Plugin "Input Executors"
+			- Default uses properties and contents to make a POST, GET etc... to a Web Service URL
+			- Allow for plugins to register custom "executors", and then handle execution of the input
+				- Accept all the parameters of the "Input" element, as well as any children if they exist
+				- Should perform some action.  Could be (but not limited to):
+					- Scripting input against a User Interface, driven by the input elements' contents
+					- Calling a SOAP service and extracting the relevant portion of the result
+					- Sending data over some unorthodox protocol and receiving a response from it, whatever it is
