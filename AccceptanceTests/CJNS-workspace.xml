@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-workspace name="CJNS" soapui-version="3.6.1" xmlns:con="http://eviware.com/soapui/config">
+  <con:settings/>
+  <con:project name="Services">C:/Projects/cjns/AccceptanceTests/Collections/Collections-soapui-project.xml</con:project>
+</con:soapui-workspace>
