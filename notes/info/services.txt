@@ -1,0 +1,31 @@
+
+
+* Core Services
+	- Verbs used
+		- GET: Acquires resource
+		- POST: Creates new resource
+			- If non-ATOM Entry posted, should create two resources:
+				- Media Entry
+				- Media Link Entry
+		- PUT: Modify resource
+		- DELETE: Remove resource
+	- Resources
+		- /Service
+			- GET: 
+				- Return Service Document (200 OK)
+		- /Collection/#Identifier#
+			- GET:
+				- Return Atom Feed Document for collection (200 OK)
+			- POST: 
+				- Accept Member Representation
+				- Return URL to new Member Entry URI (201 Created) 
+					- URL will be of /Entry/#Identifier# form
+					- Media entries may also have been created: can access through Member Entry
+		- /Entry/#Identifier#
+			- GET:
+				- Return Member Representation (Atom Entry) (200 OK)
+			- PUT:
+				- Accept Member Representation
+				- Return 200 OK (no data)
+			- DELETE:
+				- Return 200 OK (no data)

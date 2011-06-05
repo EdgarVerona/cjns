@@ -1,0 +1,32 @@
+
+* Flaws in data model/notes to remember
+	- GENERAL
+		- Infrastructure for optimistic concurrency?  Need to investigate EFCodeFirst conventions for concurrency
+			- http://stackoverflow.com/questions/5593426/how-to-implement-concurrency-in-ef-code-first-while-using-a-tpt-hierarchy
+			- byte array property: timestamp
+			- Associate when mapping properties to database:
+				- (Assumes a base class which has this kind of bookkeeping info, which makes sense to me)
+				- Map timestamp property:
+					modelBuilder.Entity<DbEntityBase>()
+						.Property(e => e.Timestamp)
+						.IsConcurrencyToken()
+						.HasColumnType("timestamp")
+						.HasDatabaseGeneratedOption(DatabaseGeneratedOption.Computed);
+				- Must also map children of base class to use parents' mapping as well:
+					modelBuilder.Entity<DrawingVersion>()
+						.Map(m => m.MapInheritedProperties())
+						.ToTable("DrawingVersion");
+
+			- This gets me thinking... could we generate those GUIDs as well?  Hmm...
+						
+	- Entry Links
+		- Remember: most(all?) entry links should be generated
+			- Need to investigate whether there could ever be an entry link that wouldn't be able to be generated from other data
+	- Entries
+		- ContentType
+			- Why do I let that be a text value, when I enforce relationship to ContentType for Collections?
+		- SourceUri
+			- Establish convention: should leave it blank if it can be generated?  Or should that not be the case?
+	- Collections
+		- Href
+			- This can (and SHOULD) definitely be generated & transient: why are we storing this?

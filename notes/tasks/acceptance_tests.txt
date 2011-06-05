@@ -1,4 +1,49 @@
 
+* Tests Needed
+	- /Service
+		- GET
+			- Acquire and check correctness of Service Document
+			- Multiple workspaces
+			- Multiple collections in workspaces
+			- Collections accept various types
+			- Colections accept from multiple Categories
+	- /Collection/#
+		- GET
+			- Returns single entry
+			- Returns multiple entries
+			- Returns paged results
+			- Returns results with Media Link Entries
+		- POST
+			- Create Atom Entry "Member Resource"
+				- Should create an Atom Entry
+				- Returns URL for Atom Entry
+			- Create Media Entry "Member Resource"
+				- Should create a Media Link Entry
+					- Should have an "edit-media" link
+					- Must have a "src" attribute on atom:content that links to resource URL
+				- Should create a "Media Resource"
+					- AKA store the media that was uploaded itself, and expose it via consistent URL
+				- Returns URL for the Media Link Entry
+	- /Entry/#
+		- GET
+			- Acquire Atom Entry - Plain Text
+				- Return Atom Entry with contents
+					- Content to textual content of entry
+					- link information for resource (edit)
+			- Acquire Atom Entry - HTML
+				- Return Atom Entry with HTML contents
+					- Content to textual content of entry
+					- link information for resource (edit)
+			- Acquire Media Link Entry
+				- Return Atom Entry with 
+					- link information for resource (edit-media, edit)
+					- atom:content src and type set to URL and type of media itself
+			- Acquire Media Resource
+				- Return base64 encoded data for expected media
+		- PUT
+		- DELETE
+
+
 * Approaches to Acceptance Testing
 	- What needs to be done
 		- Set database to known state (for each test, or overall?)
