@@ -6,9 +6,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace CitizenJournalismNetworkServer.Domain.Models
 {
-    public class Person
+    public class Person : DomainEntity
     {
-        public int Id { get; set; }
 
         [Required]
         public string Name { get; set; }

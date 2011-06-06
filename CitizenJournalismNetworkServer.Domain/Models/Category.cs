@@ -6,10 +6,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace CitizenJournalismNetworkServer.Domain.Models
 {
-    public class Category
+    public class Category : DomainEntity
     {
-        public int Id { get; set; }
-
         [Required]
         public string Term { get; set; }
 

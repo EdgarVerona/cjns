@@ -81,13 +81,13 @@ namespace CitizenJournalismNetworkServer.Test.Factories
             entries.Add(entryMultipleSecond);
 
             Mock<ICollectionRepository> mockCollectionRepo = new Mock<ICollectionRepository>();
-            mockCollectionRepo.Setup(repo => repo.GetAllCollections()).Returns(collections);
+            mockCollectionRepo.Setup(repo => repo.GetAll()).Returns(collections);
             mockCollectionRepo.Setup(repo => repo.GetById(CollectionSingleId)).Returns(collectionSingle);
             mockCollectionRepo.Setup(repo => repo.GetById(CollectionMultipleId)).Returns(collectionMultiple);
             mockCollectionRepo.Setup(repo => repo.GetById(CollectionEmptyId)).Returns(collectionEmpty);
             mockCollectionRepo.Setup(repo => repo.GetById(CollectionNonexistantId)).Returns((Collection)null);
             Mock<IEntryRepository> mockEntryRepo = new Mock<IEntryRepository>();
-            mockEntryRepo.Setup(repo => repo.GetAllEntries()).Returns(entries);
+            mockEntryRepo.Setup(repo => repo.GetAll()).Returns(entries);
 
             // Use the mock Collection and Entry repos, and the real Generator Repo because it doesn't matter.
             _factory = new FeedFactory(mockCollectionRepo.Object, mockEntryRepo.Object, new GeneratorFactory());

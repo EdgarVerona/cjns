@@ -31,8 +31,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EntityFramework">
-      <HintPath>..\packages\EFCodeFirst.0.8\lib\EntityFramework.dll</HintPath>
+    <Reference Include="Autofac">
+      <HintPath>..\packages\Autofac.2.4.5.724\lib\NET40\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="Autofac.Configuration">
+      <HintPath>..\packages\Autofac.2.4.5.724\lib\NET40\Autofac.Configuration.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -60,10 +63,12 @@
     <Compile Include="Factories\Atom\IAtomFactory.cs" />
     <Compile Include="Factories\FeedFactory.cs" />
     <Compile Include="Factories\GeneratorFactory.cs" />
+    <Compile Include="Injection\IPersistenceInjector.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\Collection.cs" />
     <Compile Include="Models\Content.cs" />
     <Compile Include="Models\ContentType.cs" />
+    <Compile Include="Models\Base\DomainEntity.cs" />
     <Compile Include="Models\Entry.cs" />
     <Compile Include="Models\Feed.cs" />
     <Compile Include="Models\Generator.cs" />
@@ -73,14 +78,14 @@
     <Compile Include="Models\Service.cs" />
     <Compile Include="Models\Workspace.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repositories\CategoryRepository.cs" />
-    <Compile Include="Repositories\CitizenJournalismNetworkServerContext.cs" />
-    <Compile Include="Repositories\CollectionRepository.cs" />
-    <Compile Include="Repositories\ContentTypeRepository.cs" />
-    <Compile Include="Repositories\EntryRepository.cs" />
-    <Compile Include="Repositories\LinkRepository.cs" />
-    <Compile Include="Repositories\PersonRepository.cs" />
-    <Compile Include="Repositories\WorkspaceRepository.cs" />
+    <Compile Include="Repositories\IWorkspaceRepository.cs" />
+    <Compile Include="Repositories\IPersonRepository.cs" />
+    <Compile Include="Repositories\ILinkRepository.cs" />
+    <Compile Include="Repositories\IEntryRepository.cs" />
+    <Compile Include="Repositories\IContentTypeRepository.cs" />
+    <Compile Include="Repositories\ICollectionRepository.cs" />
+    <Compile Include="Repositories\ICategoryRepository.cs" />
+    <Compile Include="Repositories\IRepository.cs" />
     <Compile Include="Utilities\UtilityAtomEntity.cs" />
     <Compile Include="Utilities\UtilityContentType.cs" />
   </ItemGroup>

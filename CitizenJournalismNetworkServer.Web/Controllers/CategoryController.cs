@@ -12,10 +12,6 @@ namespace CitizenJournalismNetworkServer.Web.Controllers
     {
         private readonly ICategoryRepository repository;
 
-        // If you are using Dependency Injection, you can delete the following constructor
-        public CategoryController() : this(new CategoryRepository())
-        {
-        }
 
         public CategoryController(ICategoryRepository r)
         {
@@ -27,7 +23,7 @@ namespace CitizenJournalismNetworkServer.Web.Controllers
 
         public ActionResult Index()
         {
-            return View(this.repository.GetAllCategories());
+            return View(this.repository.GetAll());
         }
 
         //
@@ -78,6 +74,7 @@ namespace CitizenJournalismNetworkServer.Web.Controllers
             var d = this.repository.GetById(id);
             if (TryUpdateModel(d))
             {
+                this.repository.Update(d);
                 this.repository.Save();
                 return RedirectToAction("Index");
             }

@@ -35,7 +35,7 @@ namespace CitizenJournalismNetworkServer.Domain.Factories
                 return null;
             }
 
-            ICollection<Entry> entries = (from entry in _entryRepository.GetAllEntries()
+            ICollection<Entry> entries = (from entry in _entryRepository.GetAll()
                                           where entry.Collection.Id == collectionId
                                           orderby entry.DatePublished descending
                                           select entry).ToList();

@@ -6,15 +6,13 @@ using System.ComponentModel.DataAnnotations;
 
 namespace CitizenJournalismNetworkServer.Domain.Models
 {
-    public class Workspace
+    public class Workspace : DomainEntity
     {
         public Workspace()
         {
             this.Collections = new List<Collection>();
         }
         
-        public int Id { get; set; }
-
         [Required]
         public string Title { get; set; }
 

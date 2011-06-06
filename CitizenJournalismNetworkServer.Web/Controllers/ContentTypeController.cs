@@ -12,11 +12,6 @@ namespace CitizenJournalismNetworkServer.Web.Controllers
     {
         private readonly IContentTypeRepository repository;
 
-		// If you are using Dependency Injection, you can delete the following constructor
-        public ContentTypeController() : this(new ContentTypeRepository())
-        {
-        }
-
         public ContentTypeController(IContentTypeRepository r)
         {
             this.repository = r;
@@ -27,7 +22,7 @@ namespace CitizenJournalismNetworkServer.Web.Controllers
 
         public ViewResult Index()
         {
-            return View(this.repository.GetAllContentTypes());
+            return View(this.repository.GetAll());
         }
 
         //
@@ -78,6 +73,7 @@ namespace CitizenJournalismNetworkServer.Web.Controllers
             var d = this.repository.GetById(id);
             if (TryUpdateModel(d))
             {
+                this.repository.Update(d);
                 this.repository.Save();
                 return RedirectToAction("Index");
             }

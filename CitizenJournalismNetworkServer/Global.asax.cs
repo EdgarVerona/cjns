@@ -12,6 +12,9 @@ using CitizenJournalismNetworkServer.Web.Controllers;
 using CitizenJournalismNetworkServer.Domain.Repositories;
 using CitizenJournalismNetworkServer.Domain.Factories;
 using CitizenJournalismNetworkServer.Web.ModelBinders;
+using CitizenJournalismNetworkServer.Domain.EFCodeFirst.Injection;
+using CitizenJournalismNetworkServer.Domain.Subsonic.Injection;
+using CitizenJournalismNetworkServer.Domain.Dapper.Injection;
 
 namespace CitizenJournalismNetworkServer
 {
@@ -30,9 +33,21 @@ namespace CitizenJournalismNetworkServer
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
+                "TypeUnpecifiedGeneral", // Route name
+                "{controller}", // URL with parameters
+                new { controller = "Home", action = "Index", type = "html" } // Parameter defaults
+            );
+
+            routes.MapRoute(
                 "TypeSpecifiedGeneral", // Route name
                 "{controller}.{type}", // URL with parameters
                 new { controller = "Home", action = "Index", type = UrlParameter.Optional } // Parameter defaults
+            );
+
+            routes.MapRoute(
+                "TypeUnspecified", // Route name
+                "{controller}/{action}/{id}", // URL with parameters
+                new { controller = "Home", action = "Index", id = UrlParameter.Optional, type = "html" } // Parameter defaults
             );
 
             routes.MapRoute(
@@ -41,38 +56,45 @@ namespace CitizenJournalismNetworkServer
                 new { controller = "Home", action = "Index", id = UrlParameter.Optional, type = UrlParameter.Optional } // Parameter defaults
             );
 
-
-            routes.MapRoute(
-                "Default", // Route name
-                "{controller}/{action}/{id}", // URL with parameters
-                new { controller = "Home", action = "Index", id = UrlParameter.Optional } // Parameter defaults
-            );
-
         }
 
         protected void Application_Start()
         {
             var builder = new ContainerBuilder();
 
-            RegisterRepositories(builder);
-            RegisterFactories(builder);
-            RegisterControllers(builder);
+            // By default, we're going to use EFCodeFirst as our persistence mechanism.
+            // Register its repositories and persistence implementations.
+            //EFCodeFirstPersistenceInjector persistenceInjector = new EFCodeFirstPersistenceInjector();
+            //DapperPersistenceInjector persistenceInjector = new DapperPersistenceInjector();
+            SubsonicPersistenceInjector persistenceInjector = new SubsonicPersistenceInjector();
+            persistenceInjector.RegisterRepositories(builder);
 
+            // Register any dependent factories.
+            RegisterFactories(builder);
+
+            // Register various MVC mechanisms.
+            RegisterControllers(builder);
             RegisterModelBinders(builder);
 
+            // Build our IoC Container from the registration rules we've set forth.
             var container = builder.Build();
             
+            // Set our IoC container to be the dependency resolver of the application.
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
 
+            // Register our MultiOutputViewEngine to route before passing off to the standard Razor engine.
             AreaRegistration.RegisterAllAreas();
-
             ViewEngines.Engines.Clear();
             ViewEngines.Engines.Add(new MultiOutputViewEngine());
             ViewEngines.Engines.Add(new RazorViewEngine());
 
+            // Register routes and filters as normal.
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);
+
         }
+
+
 
         private static void RegisterModelBinders(ContainerBuilder builder)
         {
@@ -84,24 +106,9 @@ namespace CitizenJournalismNetworkServer
 
         private static void RegisterControllers(ContainerBuilder builder)
         {
-            //builder.RegisterControllers(typeof(MvcApplication).Assembly);
             builder.RegisterControllers(typeof(CollectionController).Assembly);
-            //builder.RegisterType<CollectionController>().InstancePerHttpRequest();
-            //builder.RegisterType<CitizenJournalismNetworkServer.Web.Controllers.
         }
 
-
-        private static void RegisterRepositories(ContainerBuilder builder)
-        {
-            // Register repositories with the Builder.
-            builder.Register<WorkspaceRepository>(component => new WorkspaceRepository()).As<IWorkspaceRepository>();
-            builder.Register<PersonRepository>(component => new PersonRepository()).As<IPersonRepository>();
-            builder.Register<LinkRepository>(component => new LinkRepository()).As<ILinkRepository>();
-            builder.Register<EntryRepository>(component => new EntryRepository()).As<IEntryRepository>();
-            builder.Register<ContentTypeRepository>(component => new ContentTypeRepository()).As<IContentTypeRepository>();
-            builder.Register<CollectionRepository>(component => new CollectionRepository()).As<ICollectionRepository>();
-            builder.Register<CategoryRepository>(component => new CategoryRepository()).As<ICategoryRepository>();
-        }
 
         private static void RegisterFactories(ContainerBuilder builder)
         {

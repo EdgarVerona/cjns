@@ -13,11 +13,6 @@ namespace CitizenJournalismNetworkServer.Web.Controllers
 
         private readonly IWorkspaceRepository repository;
 
-		// If you are using Dependency Injection, you can delete the following constructor
-        public ServiceController() : this(new WorkspaceRepository())
-        {
-            
-        }
 
         public ServiceController(IWorkspaceRepository r)
         {
@@ -30,7 +25,7 @@ namespace CitizenJournalismNetworkServer.Web.Controllers
         {
             Service service = new Service();
 
-            service.Workspaces = repository.GetAllWorkspaces();
+            service.Workspaces = repository.GetAll();
 
             return View("Service", service);
         }

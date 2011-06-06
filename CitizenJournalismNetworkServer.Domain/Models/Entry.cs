@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace CitizenJournalismNetworkServer.Domain.Models
 {
-    public class Entry
+    public class Entry : DomainEntity
     {
 
         public Entry()
@@ -20,8 +20,6 @@ namespace CitizenJournalismNetworkServer.Domain.Models
             this.Links = new List<Link>();
         }
 
-        [DatabaseGenerated(System.ComponentModel.DataAnnotations.DatabaseGenerationOption.Identity)]
-        public int Id { get; set; }
 
         public virtual ICollection<Person> Authors { get; set; }
 
@@ -29,7 +27,6 @@ namespace CitizenJournalismNetworkServer.Domain.Models
 
         public virtual Collection Collection { get; set; }
 
-        //+++ Temporarily disabled until I figure out how to set up the composite relationship.
         public Content Content { get; set; }
 
         public virtual ICollection<Person> Contributors { get; set; }

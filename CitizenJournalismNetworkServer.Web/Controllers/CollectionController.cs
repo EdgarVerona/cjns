@@ -54,6 +54,12 @@ namespace CitizenJournalismNetworkServer.Web.Controllers
 
 
 
+        public ActionResult Index()
+        {
+            return View(this._repository.GetAll());
+        }
+
+
 		//
 		// GET: /Collection/Create
 
@@ -95,6 +101,7 @@ namespace CitizenJournalismNetworkServer.Web.Controllers
 			var d = this._repository.GetById(id);
 			if (TryUpdateModel(d))
 			{
+                this._repository.Update(d);
 				this._repository.Save();
 				return RedirectToAction("Index");
 			}

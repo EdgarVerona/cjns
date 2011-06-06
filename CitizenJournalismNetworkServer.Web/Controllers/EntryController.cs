@@ -13,11 +13,6 @@ namespace CitizenJournalismNetworkServer.Web.Controllers
         private readonly IEntryRepository repository;
 
 
-		// If you are using Dependency Injection, you can delete the following constructor
-        public EntryController() : this(new EntryRepository())
-        {
-        }
-
         public EntryController(IEntryRepository r)
         {
             this.repository = r;
@@ -28,7 +23,7 @@ namespace CitizenJournalismNetworkServer.Web.Controllers
         // GET: /Entry/
         public ActionResult Index()
         {
-            return View(this.repository.GetAllEntries());
+            return View(this.repository.GetAll());
         }
 
         //
@@ -79,6 +74,7 @@ namespace CitizenJournalismNetworkServer.Web.Controllers
             var d = this.repository.GetById(id);
             if (TryUpdateModel(d))
             {
+                this.repository.Update(d);
                 this.repository.Save();
                 return RedirectToAction("Index");
             }

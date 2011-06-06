@@ -37,18 +37,18 @@
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="Autofac">
-      <HintPath>..\packages\Autofac.2.4.4.705\lib\NET40\Autofac.dll</HintPath>
+      <HintPath>..\packages\Autofac.2.4.5.724\lib\NET40\Autofac.dll</HintPath>
     </Reference>
     <Reference Include="Autofac.Configuration">
-      <HintPath>..\packages\Autofac.2.4.4.705\lib\NET40\Autofac.Configuration.dll</HintPath>
+      <HintPath>..\packages\Autofac.2.4.5.724\lib\NET40\Autofac.Configuration.dll</HintPath>
     </Reference>
     <Reference Include="Autofac.Integration.Mvc">
-      <HintPath>..\packages\Autofac.Mvc3.2.4.4.705\lib\NET40\Autofac.Integration.Mvc.dll</HintPath>
-    </Reference>
-    <Reference Include="EntityFramework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EFCodeFirst.0.8\lib\EntityFramework.dll</HintPath>
+      <HintPath>..\packages\Autofac.Mvc3.2.4.5.724\lib\NET40\Autofac.Integration.Mvc.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="RouteDebugger">
+      <HintPath>..\packages\routedebugger.2.0.0.6\lib\net40\RouteDebugger.dll</HintPath>
+    </Reference>
     <Reference Include="System.Data.Entity" />
     <Reference Include="System.Data.Entity.Design" />
     <Reference Include="System.Data.Linq" />
@@ -57,7 +57,9 @@
       <HintPath>..\packages\SqlServerCompact.4.0.8482.1\lib\System.Data.SqlServerCe.dll</HintPath>
     </Reference>
     <Reference Include="System.Transactions" />
-    <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
     <Reference Include="System.Web.Razor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Web.WebPages" />
     <Reference Include="System.Web.Helpers" />
@@ -80,7 +82,7 @@
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
     <Reference Include="WebActivator">
-      <HintPath>..\packages\WebActivator.1.0.0.0\lib\WebActivator.dll</HintPath>
+      <HintPath>..\packages\WebActivator.1.4.1\lib\net40\WebActivator.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -93,6 +95,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
+    <Content Include="license.txt" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -418,6 +421,18 @@
     <Content Include="Views\Collection\Json\Feed.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CitizenJournalismNetworkServer.Domain.Dapper\CitizenJournalismNetworkServer.Domain.Dapper.csproj">
+      <Project>{1530FF5A-BC84-48A8-B254-6CB43554E36E}</Project>
+      <Name>CitizenJournalismNetworkServer.Domain.Dapper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CitizenJournalismNetworkServer.Domain.EFCodeFirst\CitizenJournalismNetworkServer.Domain.EFCodeFirst.csproj">
+      <Project>{53DA865C-27D9-4E8C-ACD9-6C378EA982DC}</Project>
+      <Name>CitizenJournalismNetworkServer.Domain.EFCodeFirst</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CitizenJournalismNetworkServer.Domain.Subsonic\CitizenJournalismNetworkServer.Domain.Subsonic.csproj">
+      <Project>{E5094DCF-3610-401A-B833-8314E078E8B0}</Project>
+      <Name>CitizenJournalismNetworkServer.Domain.Subsonic</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CitizenJournalismNetworkServer.Domain\CitizenJournalismNetworkServer.Domain.csproj">
       <Project>{A14FA6AC-0DB3-4439-A7A6-5934846CE73A}</Project>
       <Name>CitizenJournalismNetworkServer.Domain</Name>

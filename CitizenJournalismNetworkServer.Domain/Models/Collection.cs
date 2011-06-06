@@ -6,10 +6,14 @@ using System.ComponentModel.DataAnnotations;
 
 namespace CitizenJournalismNetworkServer.Domain.Models
 {
-    public class Collection
+    public class Collection : DomainEntity
     {
-        [DatabaseGenerated(System.ComponentModel.DataAnnotations.DatabaseGenerationOption.Identity)]
-        public int Id { get; set; }
+
+        public Collection()
+        {
+            this.AcceptedTypes = new List<ContentType>();
+            this.Categories = new List<Category>();
+        }
 
         public string Href { get; set; }
 

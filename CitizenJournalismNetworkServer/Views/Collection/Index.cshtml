@@ -18,6 +18,12 @@
         <th>
             AreCategoriesFixed
         </th>
+        <th>
+            Content Types
+        </th>
+        <th>
+            Categories
+        </th>
     </tr>
 
 @foreach (var item in Model) {
@@ -32,6 +38,18 @@
         </td>
         <td>
             @item.AreCategoriesFixed
+        </td>
+        <td>
+            @foreach (var contentType in item.AcceptedTypes)
+            { 
+                @contentType.Text<br />
+            }
+        </td>
+        <td>
+            @foreach (var category in item.Categories)
+            { 
+                @category.Label<br />
+            }
         </td>
     </tr>
 }

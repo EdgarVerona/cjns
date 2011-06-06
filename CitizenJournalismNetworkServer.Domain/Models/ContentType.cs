@@ -6,12 +6,10 @@ using CitizenJournalismNetworkServer.Domain.Utilities;
 
 namespace CitizenJournalismNetworkServer.Domain.Models
 {
-    public class ContentType
+    public class ContentType : DomainEntity
     {
-        public int Id { get; set; }
 
         public string Text { get; set; }
-
 
         public string GetAcceptType()
         {

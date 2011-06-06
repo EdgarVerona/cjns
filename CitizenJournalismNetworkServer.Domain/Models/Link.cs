@@ -8,9 +8,8 @@ using CitizenJournalismNetworkServer.Domain.Constants;
 
 namespace CitizenJournalismNetworkServer.Domain.Models
 {
-    public class Link
+    public class Link : DomainEntity
     {
-        public int Id { get; set; }
 
         [Required]
         public string Href { get; set; }

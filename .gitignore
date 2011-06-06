@@ -6,6 +6,12 @@ CitizenJournalismNetworkServer.AcceptanceTest/bin/*
 CitizenJournalismNetworkServer.AcceptanceTest/obj/*
 CitizenJournalismNetworkServer.Domain/bin/*
 CitizenJournalismNetworkServer.Domain/obj/*
+CitizenJournalismNetworkServer.Domain.Dapper/bin/*
+CitizenJournalismNetworkServer.Domain.Dapper/obj/*
+CitizenJournalismNetworkServer.Domain.EFCodeFirst/bin/*
+CitizenJournalismNetworkServer.Domain.EFCodeFirst/obj/*
+CitizenJournalismNetworkServer.Domain.Subsonic/bin/*
+CitizenJournalismNetworkServer.Domain.Subsonic/obj/*
 CitizenJournalismNetworkServer.Kernel/bin/*
 CitizenJournalismNetworkServer.Kernel/obj/*
 CitizenJournalismNetworkServer.Web/bin/*
@@ -16,5 +22,8 @@ CitizenJournalismNetworkServer.Kernel.Tests/bin/*
 CitizenJournalismNetworkServer.Kernel.Tests/obj/*
 CitizenJournalismNetworkServer.Web.Tests/bin/*
 CitizenJournalismNetworkServer.Web.Tests/obj/*
+Utilities/CJNS.PopulateTestData/bin/*
+Utilities/CJNS.PopulateTestData/obj/*
 *.log
 Thumbs.db
+TestResult.xml
