@@ -1,0 +1,50 @@
+* Outcome of SoapUI Poll
+	- SoapUI wins, I'll start working with it again soon
+	- Admittedly, one of the two votes in favor of it was mine: on Saturday I realized that I was really whining about very small issues, so I was feeling regret about making a big stink about it.  My desire to try making it myself sometimes gets the better of me.
+* Fixing issues with model
+	- Optimistic concurrency support
+	- Inheritance of common properties (and support of that in EFCodeFirst)
+	- GUID generation?
+	- Will all entry links be generated?  Or can there be some that aren't?
+		- If if they are all generated, should I even have them persist, or can we infer or provide a more streamlined interface for them (since we won't need a generic one for that entity)
+		- REQUIRED link types
+			- Member Entries
+				- rel="edit"
+					- Used to edit metadata AND textual article
+				- rel="alternate"
+					- EXAMPLE of potential improvements: an alternative rendering of the textual article (such as a formatted HTML page)
+					- Not required of standard, but shows how other link types may be added and should not be treated as errors
+			- Media Link Entries
+				- rel="edit-media"
+					- Used to edit Media itself (replace image/file/whatever)
+				- rel="edit"
+					- Used to edit metadata about Media
+			- 
+	- Content Type re-examination
+		- Why did I end up making a separate table and relation for these?
+		- Also, if there is a table why is it a text value for the Entry entity instead of a relation on that table?
+	- Entry.SourceUri
+		- Establish convention and generate in model instead of leaving it free-form entry
+	- Collections.Href
+		- Should definitely be generated instead of free-form
+	- Media Entries
+		- I've been ignoring this type of Entry for the most part so far
+		- However, it could have an impact on how Entries ought to be structured
+* New Repository Support
+	- Goal: To do a presentation at work showing how some various ORMs are used to start a discussion on the topic
+	- Retrofit Dapper and Subsonic SimpleRepository support into CJNS (I already had examples of Subsonic ActiveRecord and NHibernate from other projects to show)
+	- The new Repositories, being somewhat incomplete and in need of more infrastructure to support all of EFCodeFirsts' features, will be removed from the Project itself soon.  I'll leave it in Git however for anyone who wants to re-include it and try them out (as far as they've been implemented, at least).
+	- Preparation: Extracting EFCodeFirst dependencies
+		- New library created for Repositories
+		- Interfaces extracted for Repositories
+		- An Injector class provides concrete instances for the chosen Repository
+	- Dapper
+		- Incomplete, Dapper's a PITA to make a full Data Access Layer out of
+		- Doesn't have anything resembling a Context/Unit of Work, Lazy Loading Suppport, Relations
+			- But it shouldn't, it wasn't meant to be a full ORM
+		- More useful for quick mapping of SELECT queries
+		- I'll be retiring this one soon, or perhaps re-using it as the layer that handles fast SELECT queries against the Domain Layer
+	- Subsonic SimpleRepository
+		- Doesn't provide all of the features that EFCodeFirst brings to the table, but does work fairly nicely with it
+		- Lack of the Context/Unit of Work support built-in means that something would have to be written to make it support EFCodeFirst's concept of "Create/Update/Delete, and then Save to persist".
+		- Lack of explicit relation support means you have to handle all of that manually
