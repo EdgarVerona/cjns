@@ -1,0 +1,145 @@
+
+* Media Storage with FreeSNAP
+	- Let News Do What News Does Best
+		- The fact of the matter is that, most of the time, we shouldn't be relying on news servers to be storing and hosting large media files.
+		- We should let infrastructure set up to handle it do the gruntwork.
+		- However, we should also not assume that only one storage location/mechanism is king
+			- In fact, it would be ideal for the "can't stop the signal" goal for media to potentially be stored via multiple mechanisms
+		- What places could store media data:
+			- Images
+				- imgur
+				- Photobucket (yuck: slow)
+				- Picasa
+				- Flickr
+			- Video
+				- YouTube
+				- Qik
+				- Justin.tv
+			- General
+				- Amazon S3
+				- Microsoft Azure
+				- Other general purpose Cloud Solutions?
+			- Last Resorts
+				- "roll your own" hosting cloud
+				- Store to local filesystem
+	- Plugins to the Rescue
+		- Obviously, a Plugin architecture would be ideal: sites with accounts for these various services can use them, but not be forced to
+		- What should a media storage plugin be responsible for?
+			- Doing whatever it takes (logging into an external service, validating etc) to save media
+			- Get back a URL or some identifier that it can later use to retrieve the resource
+			- Retrieve the resource
+			- Update the resource, *OR* create a new resource and throw the old one away (or ignore the old one if its not possible)
+			- Delete the resource, if such a thing is possible
+			- Validate that the media is actually compatible with what it can store
+			- (optional... or does it make sense here at all?) Update progress on the upload/update/delete status
+			- Persist any metadata that the service needs to locate/update/delete the media in the future
+			- "Announcement" of what file types it supports to system
+		- Plugin Interface
+			- Save(fileName, systemIdentifier, binaryData, tag)
+				- Return a Set of relevant links (update, add, delete)
+					- Is that relevant?  Or should these be stored as needed by the individual plugin?
+				- Return success/failure
+			- Update(systemIdentifier, binaryData)
+				- return success/failure
+			- Delete(systemIdentifier)
+				- return success/failure
+			- SupportedMedia()
+				- return set of media types supported
+			? Initialize(APIState)
+				? Passed in some entity that allows them to use the API(?) (do we really need to do that?  I don't think so)
+			- Install()
+				- Use API to create any custom settings needed for Plugin Interface
+				- Use API to set defaults for custom and general settings as applicable
+			- Get(systemIdentifier)
+				- Gets the URL that should be used to access the resource
+					- NOTE: This would limit us to services that expose their HTTP URLs for resources, which I think is reasonable
+						- What are you going to do, download an image from FTP and then pass it to your user?
+			- Validate(binaryData)
+				- Gets the data, should do some simple and quick validation/sanity check to see whether the data could possibly be of the correct type
+				- Return success/failure
+		- Each Plugin should have, stored in our own system at install time and modifiable through common settings:
+			- Maximum file size allowed for storage (user determined, beside any service limits that would be checked in Validate())
+			- ...?
+		- What kinds of options/features will need to be available for Plugin developers (what API will we need to expose?)
+			- Storage of plugin specific settings, options, login info, etc...
+			- Storage of metadata, automatically related to whatever the identifier is for the media itself
+			- Update the uploading progress of the media using the identifier of the media itself
+	- What This Would Mean for our Model
+		- Possible media types could be determined by the set of all media types supported by all plugins
+			- Could still limit it to specific types if we want for individual Collections or Workspaces, but it couldn't have what current plugins don't support
+		- We could have multiple true storage locations for files, perhaps enableable by some setting ("Save media to as many services as you can")
+			- Alternatively, we could let them keep a list for each media type supported by plugins of what plugins to actually use
+			- As another alternative, we could show in the settings for individual plugins each of the media types supported by it, and check it on/off for each.
+		- Would this mean that textual data (ATOM documents) should be plugins too?
+			- Potentially in the future, though they'd be a different class of Plugins with different expectations from it
+				- Storing textual data is really a core feature, low bandwidth, and fairly mundane
+				- Do any services even exist that specialize in the storage and retrieval of textual data?
+					- Heh, ATOM. :P
+				- Media documents are also fundamentally different creatures from textual data in ATOM, which would still be supportable but I'd need to think about whether a subset of interfaces would be needed
+	- One Step Further: Document Management
+		- Thinking about media storage got me thinking about versioning: theoretically both textual and nontextual data could be more or less transparently versioned by leveraging these interfaces creatively.
+		- Example:
+			- Core system creates an ATOM Media Entry
+			- Core system creates a Version for the Entry
+			- Core Passes Version ID to Plugin for resource saving
+			- On success, Version ID and status persisted
+			- Changes needed later:
+				- Instead of passing data into Update() method, pass into Create again with a new ID
+				- Plugin wouldn't delete old resource, would save new resource and metadata under new version
+				- On return, Core persists new version in internal data structure and deprecates old version
+		- This could result in an ATOM-compliant Document Management System, or a set of extensions for Document Management!
+		- I may use the Version concept from the get-go to see if it works as well in practice as it seems like it would in theory.
+	- Media Storage System Architecture
+		- To keep system from getting bogged down, Plugins need to be doing this upload asynchronously
+			- We can't keep the user waiting for a second upload on our part
+			- We can immediately generate our own Version (and thus IDs) for the upload process
+			- We would need to send the binary data and the Version to some central store (queue?  Could it handle potentially large files?) for uploading
+			- A central server (or farm of servers) could perform the processing itself
+				- In many ways, this is a similar approach to the SMS messaging system I worked on last year
+			- Central server processes could have progress on individual items updated through API we expose, which could write progress info to some quick NoSql solution
+				- MongoDB might be a good start, as it'll run natively in Windows
+				- When a user checks progress (or is periodically updated through their client) it would call a web service that would check the current status in MongoDB
+			- When the processing is 100% complete, finalized status written to the actual database
+			- If an error occurs, should write the error both to MongoDB and to the actual database
+	- Things we need to write
+		- Internal needs
+			- Domain classes to handle creation/updating/expiring of Redis file upload statuses
+			- Schema for "File Version"
+			- Domain classes to handle creation, updating of "File Versions"
+			- Schema for "File Metadata"
+			- Schema for "Installed Plugins"
+			- Schema for "General Plugin Settings"
+			- Schema for "Custom Plugin Settings"
+			- Domain classes to handle creation/updating of Metadata
+			- Domain classes to handle updating of General Settings
+			- Domain classes to handle creation/updating of Custom Settings
+		- API for Plugins
+			- Methods/Classes to Update/Read file versions (actually needed?)
+			- Methods/Classes to Update Redis status for a file version
+			- Methods/Classes to Update/Read Metadata for a file version
+			- Methods/Classes to Create/Update/Read Custom Settings
+			- Methods/Classes to Update/Read General Settings
+		- Interface for Plugins to fill
+		- Initial Set of Plugins
+			- imgur
+			- File System
+			- YouTube
+		- Media Processing Server Application (could this be an Azure app perhaps, to scale while still using C# plugins?)
+			- Loads all installed plugins, reading their data and settings from database
+			- Reads files to be processed from a queue
+			- Calls correct plugin to save
+		- "Server Plugins" Setting Page(s) for Admins
+			- Allow them to Install or Uninstall plugins
+			- Change settings for individual plugins (including custom ones)
+		- New Web Services
+			- Get Upload Status
+				- Given Atom ID and File Version (or perhaps just Atom ID, assume latest Version)
+			- Plugins (settings, install, uninstall)
+				- Low Priority: would be for Admins only
+		- New Atom Extensions
+			- Concept of "Version"
+			- Concept of "Upload Status"
+		- Tech we need to find
+			- Queue that could handle potentially large amount of data: add to queue *quick* (top priority)
+				- Transactional pop second priority
+			- NoSql (perhaps MongoDB) that we could use for quick and volatile status update/access
